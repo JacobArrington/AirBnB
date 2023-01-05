@@ -1,6 +1,4 @@
-# AirBnb
-# AirBnB
- `<name of application here>`
+# `<name of application here>`
 
 ## Database Schema Design
 
