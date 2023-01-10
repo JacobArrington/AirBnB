@@ -1,10 +1,10 @@
 # AirBnb
 # AirBnB
- `<name of application here>`
+ `<AirBnB>`
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+https://res.cloudinary.com/dfnqaxcck/image/upload/v1673372524/AirBnb%20Schema/AirBnB_schema_saltmx.png
 
 ## API Documentation
 
