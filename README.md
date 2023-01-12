@@ -3,8 +3,8 @@
  `<AirBnB>`
 
 ## Database Schema Design
+![](https://res.cloudinary.com/dfnqaxcck/image/upload/v1673372524/AirBnb%20Schema/AirBnB_schema_saltmx.png)
 
-https://res.cloudinary.com/dfnqaxcck/image/upload/v1673372524/AirBnb%20Schema/AirBnB_schema_saltmx.png
 
 ## API Documentation
 
