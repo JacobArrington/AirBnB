@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     toSafeObject(){
       const { id, username, email} = this
        // context will be the User instance
-       return { id, username, email };
+       return { firstName,  lastName,  id, username, email };
       
     }
     validatePassword(password) {
