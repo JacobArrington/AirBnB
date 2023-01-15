@@ -7,7 +7,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     toSafeObject(){
-      const { id, username, email} = this
+      const { firstName, lastName, id, username, email} = this
        // context will be the User instance
        return { firstName,  lastName,  id, username, email };
       
@@ -44,7 +44,9 @@ module.exports = (sequelize, DataTypes) => {
       return await User.scope('currentUser').findByPk(user.id);
     }
     static associate(models) {
-      // define association here
+      User.hasMany(models.Spot,{
+        foreignKey: 'ownerId'
+      })
     }
   
     
