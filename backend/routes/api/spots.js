@@ -11,10 +11,13 @@ router.get('/', async(req,res)=>{
             
             include: [[sequelize.fn('COALESCE', sequelize.fn('AVG',
              sequelize.col('Reviews.stars')), 0), 'averageStarRating']],
-             // this agg function goes into the review table and avg the stars for each spot
-             // COALESCE states if there are no stars use 0 as a place holder 
-             // if only one star it will divide the raiting by 1 and return its value automagicly 
-
+            /* 
+            COALESCE returns the first non null val 
+            using to grab the star if there is only one review
+            then if more then one value finds the avg of the stars on the review table
+            passing 0 as a defult value then returnin the avg to the spots table
+            
+            */
 
              
              
