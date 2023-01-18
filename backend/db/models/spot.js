@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+
 'use strict';
 const {
   Model
@@ -19,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       Spot.hasMany(models.Review,{
         foreignKey: 'spotId'
       })
-    }
+    
+    
+      
+  }
   }
   Spot.init({
     ownerId: {
@@ -88,6 +92,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Spot',
+    
+   
   });
   return Spot;
 };

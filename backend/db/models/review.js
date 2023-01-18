@@ -1,4 +1,5 @@
 'use strict';
+
 const {
   Model
 } = require('sequelize');
@@ -32,10 +33,11 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.INTEGER,
       allowNull: false
     },
-    avgStarRating: DataTypes.DECIMAL
+    
   }, {
     sequelize,
     modelName: 'Review',
   });
   return Review;
 };
+

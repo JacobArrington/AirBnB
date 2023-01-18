@@ -28,9 +28,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      avgStarRating: {
-        type: Sequelize.DECIMAL
-      },
+     
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
