@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     }
     static associate(models) {
       Spot.belongsTo(models.User,{
-        foreignKey: 'ownerId'
+        foreignKey: 'ownerId',
+        as: 'Owner'
       })
       Spot.hasMany(models.Review,{
         foreignKey: 'spotId'
@@ -32,31 +33,22 @@ module.exports = (sequelize, DataTypes) => {
     address: {
       type:DataTypes.STRING,
       allowNull:false,
-      validate: {
-        notEmpty: true
-      }
+     
     },
     city: {
       type:DataTypes.STRING,
       allowNull:false,
-        validate: {
-          notEmpty: true
-        
-      }
+     
     },
     state: {
       type:DataTypes.STRING,
       allowNull:false,
-      validate: {
-        notEmpty: true
-      }
+    
     },
     country:{
       type:DataTypes.STRING,
       allowNull:false,
-      validate: {
-        notEmpty: true
-      }
+     
     },
     lat:{
       type:DataTypes.DECIMAL,
@@ -71,23 +63,16 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type:DataTypes.STRING,
       allowNull:false,
-      validate: {
-        notEmpty: true
-      }
+    
     },
     description: {
       type:DataTypes.STRING,
       allowNull:false,
-      validate: {
-        notEmpty: true
-      }
     },
     price: {
       type:DataTypes.DECIMAL,
       allowNull: false,
-      validate:{
-        min: 1
-      }
+     
     },
   }, {
     sequelize,
