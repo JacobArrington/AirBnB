@@ -1,5 +1,5 @@
 const express = require('express')
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie, requireAuth,restoreUser} = require('../../utils/auth');
 const { Spot, Review, SpotImage, User, sequelize } = require('../../db/models');
 
 const { validationResult } = require('express-validator');
@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
 
 })
 
-router.get('/current', async (req, res) => {
+router.get('/current',requireAuth, async (req, res) => {
     const spots = await Spot.findAll({
         where: {
             ownerId: req.user.id
@@ -84,11 +84,11 @@ router.get('/:id', async (req, res) => {
 
             include: [[sequelize.fn('COALESCE', sequelize.fn('AVG',
                 sequelize.col('Reviews.stars')), 0), 'averageStarRating'],
-                [sequelize.fn('COALESCE', sequelize.col('SpotImages.url'),
-                sequelize.literal("'no image preview has been uploaded'")),
-                 'previewImage'],
+                // [sequelize.fn('COALESCE', sequelize.col('SpotImages.url'),
+                // sequelize.literal("'no image preview has been uploaded'")),
+                //  'previewImage'],
                 [sequelize.fn('COUNT', sequelize.col('Reviews.id')),'numReviews']],
-
+            // make sure all spot images 
 
         },
 
@@ -98,13 +98,7 @@ router.get('/:id', async (req, res) => {
             attributes: [],
             subQuery: false,
         },
-        {
-            model: SpotImage,
-            required: false,
-            where: { preview: true },
-            attributes: ['id','url','preview']
-
-        },
+      
         {
             model:User,
             as:'Owner',
@@ -116,6 +110,15 @@ router.get('/:id', async (req, res) => {
 
 
     })
+    const image = await SpotImage.findAll({
+        where:{
+             spotId: spotId
+        },
+        attributes:['id','url', 'preview']
+    });
+    spot.dataValues.SpotImages = image
+
+    
     if(!spot){
         return res.status(404).json({
             message:"Spot couldn't be found",
@@ -128,6 +131,8 @@ router.get('/:id', async (req, res) => {
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
+
+
    const ValidateSpot = [
         check('address').exists({ checkFalsy: true }).not().withMessage('Street address is required'),
         check('city').exists({ checkFalsy: true }).not().withMessage('City is required'),
@@ -138,10 +143,10 @@ const { handleValidationErrors } = require('../../utils/validation');
         check('name').isLength({ max: 50 }).withMessage('Name must be less than 50 characters'),
         check('description').exists({ checkFalsy: true }).not().withMessage('Description is required'),
         check('price').exists({ checkFalsy: true }).not().withMessage('Price per day is required'),
-        handleValidationErrors
+       handleValidationErrors
     ]
 
-router.post('/',ValidateSpot, async (req, res) => {
+router.post('/',requireAuth,ValidateSpot, async (req, res) => {
     
         const { name, description, price, address, city, state,
             country, lat, lng, } = req.body;
@@ -163,6 +168,33 @@ router.post('/',ValidateSpot, async (req, res) => {
 
     })
     
+router.post('/:id/images',requireAuth, async(req,res) =>{
+    const {url,preview} = req.body
+    const spotId = req.params.id
+    const spot = await Spot.findByPk(spotId);
 
+    if(!spot){
+        return res.status(404).json({
+            message:"Spot couldn't be found",
+            statusCode:404
+        })
+    }
+    if(spot.ownerId !== req.user.id){
+        return res.status(401).json({
+            message:"only the spot owner can add an image",
+            statusCode: 401
+        })
+    }
+    const image = await SpotImage.create({
+        
+        url,
+        preview
+    })
+    spot.addSpotImages([image])
+    res.json(image)
+})
+// edit a spot
+
+router.put('/:id',requireAuth)
 
 module.exports = router;
