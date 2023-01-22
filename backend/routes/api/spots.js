@@ -195,6 +195,46 @@ router.post('/:id/images',requireAuth, async(req,res) =>{
 })
 // edit a spot
 
-router.put('/:id',requireAuth)
+  router.put('/:id',requireAuth,ValidateSpot, async(req,res)=>{
+   const spotId = req.params.id
+   const updateSpot = req.body
+   const spot = await Spot.findOne({
+     where:{
+        id: spotId,
+        ownerId: req.user.id
+    }
+    
+   })  
+  if(!spot){
+    return res.status(404).json({
+       message: "Couldn't find a Spot with the specified id",
+        statusCode: 404
+    })
+}
+ try {
+     await spot.update(updateSpot);
+    res.json({
+       id: spot.id,
+       ownerId: spot.ownerId,
+        address: spot.address,
+        city: spot.city,
+       state: spot.state,
+         country: spot.country,
+        lat: spot.lat,
+        lng: spot.lng,
+        name: spot.name,
+        description: spot.description,
+        price: spot.price,
+        createdAt: spot.createdAt,
+        updatedAt: spot.updatedAt
+    });
+   } catch (err) {
+    res.status(400).json({
+      message: "Validation Error",
+       statusCode: 400,
+       errors: err.errors.map((error) => error.message)
+     });
+   }
+})
 
 module.exports = router;
