@@ -116,7 +116,9 @@ router.get('/:id', async (req, res) => {
         },
         attributes:['id','url', 'preview']
     });
-    spot.dataValues.SpotImages = image
+   
+    
+    
 
     
     if(!spot){
@@ -124,8 +126,10 @@ router.get('/:id', async (req, res) => {
             message:"Spot couldn't be found",
             statusCode: 404
         })
+    }else{
+        spot.dataValues.SpotImages = image
     }
-    res.json({ spot })
+    res.json(spot)
 })
 
 const { check } = require('express-validator');
@@ -236,5 +240,27 @@ router.post('/:id/images',requireAuth, async(req,res) =>{
      });
    }
 })
+
+router.delete('/:id', requireAuth, async (req, res) => {
+    const spotId = req.params.id;
+    const spot = await Spot.findByPk(spotId);
+    if (!spot) {
+      return res.status(404).json({
+        message: "Couldn't find a Spot with the specified id",
+        statusCode: 404
+      });
+    }
+    if (spot.ownerId !== req.user.id) {
+      return res.status(401).json({
+        message: "You are not authorized to delete this spot",
+        statusCode: 401
+      });
+    }
+    await spot.destroy();
+    res.json({
+      message: "Spot successfully deleted",
+      statusCode: 200
+    });
+  });
 
 module.exports = router;
