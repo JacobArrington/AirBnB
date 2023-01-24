@@ -17,7 +17,7 @@ router.get('/current',requireAuth, async(req,res) =>{
         },
         {
             model: Spot,
-            as: 'Spot',
+            
             attributes: [
                 'id',
                 'address',
@@ -41,14 +41,35 @@ router.get('/current',requireAuth, async(req,res) =>{
             //     limit: 1
             // }]
         },
-        {
-            model: ReviewImage,
+        // {
+        //     model: ReviewImage,
             
-        }
+        // }
     ]
     })
     for await(let review of reviews){
-        console.log(review)
+        const img = await ReviewImage.findAll({
+           where: {
+            reviewId: review.dataValues.id 
+           } 
+        })
+        //const img = await ReviewImage.findAll()
+        console.log(review.dataValues.Spot )
+        const preview = await SpotImage.findOne({
+            where: {
+                preview: true,
+                spotId: review.dataValues.Spot.dataValues.id
+            }
+        })
+        const map = img.map(pic =>{
+            const obj ={}
+            obj.id = pic.id
+            obj.url = pic.url 
+            return obj             
+
+        })
+        review.dataValues.ReviewImages = map
+        review.dataValues.Spot.dataValues.previewImage = preview.dataValues.url
     }
     res.json({reviews})
 })
