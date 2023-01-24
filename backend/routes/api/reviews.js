@@ -5,7 +5,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
-
+// current user reviews 
 router.get('/current',requireAuth, async(req,res) =>{
     const reviews = await Review.findAll({
         where:{
@@ -70,6 +70,39 @@ router.get('/current',requireAuth, async(req,res) =>{
         })
         review.dataValues.ReviewImages = map
         review.dataValues.Spot.dataValues.previewImage = preview.dataValues.url
+    }
+    res.json({reviews})
+})
+
+// all reviews by spot id 
+
+router.get('/spots/:id', async(req,res)=>{
+    const spotId = req.params.id
+   
+    const reviews = await Review.findAll({
+        where:{spotId},
+       
+        include:[
+            {
+                model: User,
+                attributes: ['id','firstName', 'id']
+            },
+            {
+                model: Spot,
+                attributes: ['id','ownerId','address',
+                'city','state','country','lat','lng','name','price']
+            },
+            {
+                model: ReviewImage,
+                attributes: ['id', 'url']
+            }
+        ]
+    })
+    if(!Spot){
+        return res.status(404).json({
+            message: "Spot couldn't be found", 
+            statusCode: 404
+        })
     }
     res.json({reviews})
 })
