@@ -15,10 +15,25 @@ router.get('/current', requireAuth, async(req,res)=>{
     },
     {
         model: Spot,
+        attributes:['id', 'ownerId', 'address', 'city', 
+        'state', 'country', 'lat', 'lng', 'name', 'price',
+        [sequelize.fn('COALESCE',sequelize.col('SpotImages.url'), 
+        sequelize.literal("'no image preview has been uploaded'")), 'previewImage']],
+        include: [
+            {
+              model: SpotImage,
+              attributes: ['id', 'url'],
+              where:{
+                Preview: true
+              }
+            }
+          ]
+        
+        }
         
 
         
-    },
+    ,
    
     {
         model: ReviewImage,
