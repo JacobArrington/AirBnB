@@ -3,6 +3,7 @@ const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Spot, ReviewImage,Review,SpotImage, sequelize} = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const spot = require('../../db/models/spot');
 const router = express.Router();
 
 // current user reviews 
@@ -106,5 +107,21 @@ router.get('/spots/:id', async(req,res)=>{
     }
     res.json({reviews})
 })
+
+
+router.post('/spot/:id', requireAuth, async(req,res)=>{
+    const spotId = req.params.id
+    const{review,stars} = req.body
+    const spot = await spot.findByPK(spotId)
+
+
+    if(!spot){
+        return res.status(404).json({
+            message: "spot couldn,t be found"
+        })
+    }
+
+  
+   })
 
 module.exports = router;
