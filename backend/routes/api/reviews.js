@@ -73,7 +73,13 @@ router.get('/current',requireAuth, async(req,res) =>{
         review.dataValues.Spot.dataValues.previewImage = preview.dataValues.url
     }
     res.json({reviews})
-})
+}) 
+
+ const validateReview =[
+    check('review').exists().notEmpty().withMessage("Review text is required"),
+    check('stars').exists().isInt({min: 1, max:5}).withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+ ]
 
 // all reviews by spot id 
 
@@ -86,7 +92,7 @@ router.get('/spots/:id', async(req,res)=>{
         include:[
             {
                 model: User,
-                attributes: ['id','firstName', 'id']
+                attributes: ['id','firstName', 'lastName']
             },
             {
                 model: Spot,
@@ -109,19 +115,97 @@ router.get('/spots/:id', async(req,res)=>{
 })
 
 
-router.post('/spot/:id', requireAuth, async(req,res)=>{
+router.post('/spots/:id',  validateReview, requireAuth, async(req,res)=>{
     const spotId = req.params.id
-    const{review,stars} = req.body
-    const spot = await spot.findByPK(spotId)
+   // const{review,stars} = req.body
+    const spot = await Spot.findByPk(spotId)
 
 
     if(!spot){
         return res.status(404).json({
-            message: "spot couldn,t be found"
+            message: "spot couldn't be found",
+            statusCode: 404 
         })
     }
-
-  
+    const existingReview = await Review.findOne({
+        where:{
+            spotId: spotId,
+            userId: req.user.id
+        }
+    })
+    if(existingReview){
+        return res.status(403).json({
+            message:"User already has a review for this spot",
+            statusCode: 403
+        })
+    }
+    const newReview = await Review.create({
+        userId: req.user.id,
+        spotId: spotId,
+        review: req.body.review,
+        stars: req.body.stars
+    })
+    res.status(201).json({
+        id: Review.id,
+        userId: newReview.userId,
+        spotId: newReview.spotId,
+        review: newReview.review,
+        stars: newReview.stars,
+        createdAt: newReview.createdAt,
+        updatedAt: newReview.updatedAt
+        });
+        res.json(newReview)
    })
+
+
+ router.post('/:id/images',requireAuth, async(req,res)=>{
+    const {url} = req.body
+    const reviewId = req.params.id
+    const review = await Review.findByPk(reviewId)
+
+    if(!review){
+        return res.status(404).json({
+            message:"Review couldn't be found",
+        })
+        
+    }
+   const count = await ReviewImage.count({where:{reviewId}})
+   if(count >= 10){
+    return res.status(403).json({
+        message:"Maximum number of images for this resource was reached",
+        statusCode: 403 
+    })
+   }
+   const img = await ReviewImage.create({
+    reviewId: reviewId,
+    url
+   })
+   res.json(img)
+ })
+
+ // edit review
+
+ router.put('/:id',requireAuth, validateReview, async(req,res)=>{
+    const reviewId = req.params.id
+    const review = await Review.findByPk(reviewId)
+
+    if(!review){
+        return res.status(404).json({
+            message: "Review couldn't be found",
+            statusCode: 404,
+        })
+    }
+    if(review.userId !== req.user.id){
+        return res.status(403).json({
+            message: "you are not authorized to edit this review",
+            statusCode: 403, 
+        })
+    }
+    const updateReview = await review.update({
+        review: req.body.review,
+        stars: req.body.stars
+    })
+    res.json(updateReview)
+ })
 
 module.exports = router;
