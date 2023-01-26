@@ -208,4 +208,7 @@ router.post('/spots/:id',  validateReview, requireAuth, async(req,res)=>{
     res.json(updateReview)
  })
 
+
+ router.delete('/:id', requireAuth,)
+
 module.exports = router;
