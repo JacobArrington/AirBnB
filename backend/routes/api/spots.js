@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
         attributes: {
 
             include: [[sequelize.fn('COALESCE', sequelize.fn('AVG',
-             sequelize.col('Reviews.stars')), 0), 'averageStarRating'],
+             sequelize.col('Reviews.stars')), 0), 'avgRating'],
             [sequelize.fn('COALESCE', sequelize.col('SpotImages.url'),
              sequelize.literal("'no image preview has been uploaded'")),
               'previewImage']]
