@@ -6,26 +6,26 @@ module.exports = {
    await queryInterface.bulkInsert('Reviews',[
     {
       userId: 2,
-      spotId: 5,
+      spotId: 3,
       review: 'This spot is great!',
       stars: 5,
-      avgStarRating: 5,
+      
      
       },
       {
       userId: 2,
-      spotId: 3,
+      spotId: 1,
       review: 'This spot is okay.',
-      stars: 3,
-      avgStarRating: 3
+      stars: 5,
+     
    
       },
       {
       userId: 4,
       spotId: 1,
       review: 'I did not like this spot.',
-      stars: 1,
-      avgStarRating: 1
+      stars: 2,
+      
    
       },
    ],{})
