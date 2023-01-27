@@ -21,18 +21,18 @@ module.exports = (sequelize, DataTypes) => {
       })
       Spot.hasMany(models.Review,{
         foreignKey: 'spotId',
-        onDelete: "CASCADE",
+        onDelete: "cascade",
         hooks: true
 
       })
       Spot.hasMany(models.SpotImage,{
         foreignKey: 'spotId',
-        onDelete: "CASCADE",
+        onDelete: "cascade",
         hooks: true
       })
       Spot.hasMany(models.Booking,{
         foreignKey: 'spotId',
-        onDelete: "CASCADE",
+        onDelete: "cascade",
         hooks: true
       })
     }
