@@ -68,7 +68,7 @@ router.get('/current',requireAuth, async (req, res) => {
             model: SpotImage,
             required: false,
             where: { preview: true },
-            attributes: [
+            attributes: []
         }],
 
         group: ['Spot.id', 'SpotImages.url']
