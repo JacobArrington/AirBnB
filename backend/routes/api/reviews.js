@@ -36,12 +36,16 @@ router.get('/current',requireAuth, async(req,res) =>{
              ],
             include: [{
                 model: SpotImage,
-    
-                attributes: ['url'],
-                required: false,
+                attributes: [],
                 where: {preview: true},
-                limit: 1
-            }]
+                
+            }
+        ],
+        attributes: {
+            include: [[sequelize.fn('COALESCE', sequelize.col('Spot.SpotImages.url'), 
+            sequelize.literal("'no image preview has been uploaded'")), 
+            'previewImage']],
+        }
         },
          {
              model: ReviewImage,
@@ -51,19 +55,9 @@ router.get('/current',requireAuth, async(req,res) =>{
     ]
     })
 
-    const reviewResult = reviews.map(review =>{
-        const spot = review.Spot
-        if(spot && spot.SpotImage){
-            if(spot.SpotImage.length > 0){
-                review.dataValues.Spot.dataValues.previewImage 
-                = spot.SpotImage[0].url
-            }else{
-                review.dataValues.Spot.dataValues.previewImage = "no preview image available"
-            }
-        }else{
-            review.dataValues.Spot.dataValues.previewImage = "no preview image available"
-        }
-    })
+
+
+   
 //     for await(let review of reviews){
 //         const img = await ReviewImage.findAll({
 //            where: {
@@ -88,7 +82,7 @@ router.get('/current',requireAuth, async(req,res) =>{
 //         review.dataValues.ReviewImages = map
 //         review.dataValues.Spot.dataValues.previewImage = preview.dataValues.url
 //     }
-    res.json({Review:reviewResult})
+    res.json({Review:reviews})
  }) 
 
  const validateReview =[
