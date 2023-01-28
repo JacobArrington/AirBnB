@@ -39,7 +39,7 @@ router.get('/current',requireAuth, async(req,res) =>{
     
                 attributes: ['url'],
                 required: false,
-                where: {isPreview: true},
+                where: {preview: true},
                 limit: 1
             }]
         },

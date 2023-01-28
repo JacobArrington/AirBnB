@@ -35,7 +35,6 @@ router.post(
       const user = await User.signup({  firstName, lastName, email, username, password });
       const validEmail = await User.findOne({where:[{email},]})
      
-
     if(validEmail){
       res.status(403)
       return res.json({
@@ -57,12 +56,9 @@ router.post(
         }
       })
     }
-
         // vscode lies 
       await setTokenCookie(res, user);
 
-
-  
       return res.json({
         user
       });

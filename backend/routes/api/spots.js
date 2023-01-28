@@ -298,12 +298,12 @@ router.post('/:id/reviews',requireAuth,validateReview,async(req,res)=>{
  try {
      await spot.update(updateSpot);
     res.json({
-       id: spot.id,
-       ownerId: spot.ownerId,
+        id: spot.id,
+        ownerId: spot.ownerId,
         address: spot.address,
         city: spot.city,
-       state: spot.state,
-         country: spot.country,
+        state: spot.state,
+        country: spot.country,
         lat: spot.lat,
         lng: spot.lng,
         name: spot.name,
