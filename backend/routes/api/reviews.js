@@ -63,6 +63,7 @@ router.get('/current',requireAuth, async(req,res) =>{
         }else{
             review.dataValues.Spot.dataValues.previewImage = "no preview image available"
         }
+    })
 //     for await(let review of reviews){
 //         const img = await ReviewImage.findAll({
 //            where: {
