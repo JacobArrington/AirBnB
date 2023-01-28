@@ -32,51 +32,62 @@ router.get('/current',requireAuth, async(req,res) =>{
                 'lng',
                 'name',
                 'price',
-            //     [sequelize.fn('COALESCE', sequelize.col('SpotImages.url'),
-            //     sequelize.literal("'no image preview has been uploaded'")),
-            //      'previewImage']
+        
              ],
-            // include: [{
-            //     model: SpotImage,
-               
-            //     attributes: [],
-            //     required: false,
-            //     where: {isPreview: true},
-            //     limit: 1
-            // }]
+            include: [{
+                model: SpotImage,
+    
+                attributes: ['url'],
+                required: false,
+                where: {isPreview: true},
+                limit: 1
+            }]
         },
-        // {
-        //     model: ReviewImage,
+         {
+             model: ReviewImage,
+             attributes: ['id', 'url']
             
-        // }
+         }
     ]
     })
-    for await(let review of reviews){
-        const img = await ReviewImage.findAll({
-           where: {
-            reviewId: review.dataValues.id 
-           } 
-        })
-        //const img = await ReviewImage.findAll()
-        console.log(review.dataValues.Spot )
-        const preview = await SpotImage.findOne({
-            where: {
-                preview: true,
-                spotId: review.dataValues.Spot.dataValues.id
-            }
-        })
-        const map = img.map(pic =>{
-            const obj ={}
-            obj.id = pic.id
-            obj.url = pic.url 
-            return obj             
 
-        })
-        review.dataValues.ReviewImages = map
-        review.dataValues.Spot.dataValues.previewImage = preview.dataValues.url
-    }
-    res.json({reviews})
-}) 
+    const reviewResult = reviews.map(review =>{
+        const spot = review.Spot
+        if(spot && spot.SpotImage.length > 0){
+            review.dataValues.Spot.dataValues.previewImage 
+            = spot.SpotImage[0].url
+
+        }else{
+            review.dataValues.Spot.dataValues.previewImage = "no preview image available"
+        }
+        return review
+    })
+//     for await(let review of reviews){
+//         const img = await ReviewImage.findAll({
+//            where: {
+//             reviewId: review.dataValues.id 
+//            } 
+//         })
+//         //const img = await ReviewImage.findAll()
+//         console.log(review.dataValues.Spot )
+//         const preview = await SpotImage.findOne({
+//             where: {
+//                 preview: true,
+//                 spotId: review.dataValues.Spot.dataValues.id
+//             }
+//         })
+//         const map = img.map(pic =>{
+//             const obj ={}
+//             obj.id = pic.id
+//             obj.url = pic.url 
+//             return obj             
+
+//         })
+//         review.dataValues.ReviewImages = map
+//         review.dataValues.Spot.dataValues.previewImage = preview.dataValues.url
+//     }
+    res.json({Review:reviewResult})
+ }) 
 
  const validateReview =[
     check('review').exists().notEmpty().withMessage("Review text is required"),
