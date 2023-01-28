@@ -53,15 +53,16 @@ router.get('/current',requireAuth, async(req,res) =>{
 
     const reviewResult = reviews.map(review =>{
         const spot = review.Spot
-        if(spot && spot.SpotImage.length > 0){
-            review.dataValues.Spot.dataValues.previewImage 
-            = spot.SpotImage[0].url
-
+        if(spot && spot.SpotImage){
+            if(spot.SpotImage.length > 0){
+                review.dataValues.Spot.dataValues.previewImage 
+                = spot.SpotImage[0].url
+            }else{
+                review.dataValues.Spot.dataValues.previewImage = "no preview image available"
+            }
         }else{
             review.dataValues.Spot.dataValues.previewImage = "no preview image available"
         }
-        return review
-    })
 //     for await(let review of reviews){
 //         const img = await ReviewImage.findAll({
 //            where: {
