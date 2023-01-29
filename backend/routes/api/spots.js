@@ -205,7 +205,7 @@ router.get('/:id', async (req, res) => {
         }
     ],
 
-        group: ['Spot.id', 'Spot.ownerId']
+        group: [sequelize.literal('User.id'), sequelize.literal('Owner.id'),'Spot.id'],
 
 
     })
