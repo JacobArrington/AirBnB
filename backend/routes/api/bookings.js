@@ -11,8 +11,8 @@ const router = express.Router();
 const validateBooking = [
     check('startDate').exists().notEmpty().isISO8601().withMessage("Start date is required"),
     check('endDate').exists().notEmpty().isISO8601().withMessage("End date is required"),
+     handleValidationErrors 
 ]
-
 router.get('/current', requireAuth,async (req, res) => {
     const bookings = await Booking.findAll({
         where: { userId: req.user.id },

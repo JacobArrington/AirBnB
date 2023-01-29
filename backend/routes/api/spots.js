@@ -2,11 +2,46 @@ const express = require('express')
 const { setTokenCookie, requireAuth,restoreUser} = require('../../utils/auth');
 const { Spot, Review, SpotImage, ReviewImage, User, Booking, sequelize } = require('../../db/models');
 const {Op} = require('sequelize')
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 const { validationResult } = require('express-validator');
 const router = express.Router();
 
+
+// let validateQuery =[
+//     check('page').isInt({min:1,max:10}).withMessage('Page must between 1 and 10'),
+//     check('size').isInt({min: 1, max:20}).withMessage('Size must be between 1 and 20'),
+//     check('minLat').isDecimal({min: -90.00}).withMessage('Minimum latitude is invalid'),
+//     check('maxLat').isDecimal({max: 90.00}).withMessage('Maximum latitude is invalid'),
+//     check('minLng').isDecimal({min: -180.00}).withMessage('Minimum longitude is invalid'),
+//     check('maxLng').isDecimal({max: 180.00}).withMessage('Maximum longitude is invalid'),
+//     check('minPrice').isDecimal({min: 0}).withMessage('Minimum price must be greater than or equal to 0'),
+//     check('maxPrice').isDecimal({min: 0}).withMessage('Maximum price must be greater than or equal to 0'),
+//     handleValidationErrors
+// ]
+
 router.get('/', async (req, res) => {
+    let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query
+
+    if (!page || Number.isNaN(page) || page > 10) { page = 1 }
+    if (!size || Number.isNaN(size) || size > 20) { size = 20 }
+    if (!minLat) { minLat = -90 }
+    if (!maxLat) { maxLat = 90 }
+    if (!minLng) { minLng = -180 }
+    if (!maxLng) { maxLng = 180 }
+    if (!minPrice) { minPrice = 1 }
+    if (!maxPrice) { maxPrice = 100000 }
+    page = Number(page)
+    size = Number(size)
+    console.log(page,size, "!!!!!!!!!!!!!")
     const spots = await Spot.findAll({
+    
+        where: {
+            lat: { [Op.between]: [minLat, maxLat] },
+            lng: { [Op.between]: [minLng, maxLng] },
+            price: { [Op.between]: [minPrice, maxPrice] },
+        },
+/*
         attributes: {
 
             include: [[sequelize.fn('COALESCE', sequelize.fn('AVG',
@@ -14,6 +49,7 @@ router.get('/', async (req, res) => {
             [sequelize.fn('COALESCE', sequelize.col('SpotImages.url'),
              sequelize.literal("'no image preview has been uploaded'")),
               'previewImage']]
+              */
             /* 
             COALESCE returns the first non null val 
             using to grab the star if there is only one review
@@ -21,26 +57,58 @@ router.get('/', async (req, res) => {
             passing 0 as a defult value then returnin the avg to the spots table
             
             */
-        },
+        //},
         include: [{
             model: Review,
-            required: false,
-            attributes: [],
-            subQuery: false,
+            
         },
         {
             model: SpotImage,
-            required: false,
-            where: { preview: true },
-            attributes: []
+           
         }],
 
-        group: ['Spot.id', 'SpotImages.url']
+        //group: ['Spot.id', 'SpotImages.url'],
+        offset: (page - 1) * size ,
+        limit: size
+    
+        })
+       spots.forEach(spot =>{
+        spot.SpotImages.forEach(image=>{
+            if (image.dataValues.preview){
+                spot.dataValues.previewImage = image.url
+                
+            }else{
+                spot.dataValues.previewImage = "no preview Image"
+            }
+            delete spot.dataValues.SpotImages
+            let sum = 0 
+            if (spot.Reviews.length){
+                spot.Reviews.forEach(review =>{
+                sum += review.dataValues.stars
+                })
+                sum = sum/spot.Reviews.length
+                spot.dataValues.avgRating = sum
+                
+            }else{
+                spot.dataValues.avgRating = sum
 
-    })
-    res.json({ spots })
+            }
+            delete spot.dataValues.Reviews
+           
+            
+        })
+       })
+        
+       
+    res.json({ 
+        Spots:spots,
+        page,
+        size
+        
 
 })
+})
+
 
 router.get('/current',requireAuth, async (req, res) => {
     const spots = await Spot.findAll({
@@ -98,8 +166,7 @@ router.get('/:id/reviews', async(req,res)=>{
             },
             {
                 model: Spot,
-                attributes: ['id','ownerId','address',
-                'city','state','country','lat','lng','name','price']
+                attributes: []
             },
             {
                 model: ReviewImage,
@@ -201,8 +268,8 @@ router.get('/:id/bookings',requireAuth, async(req,res)=>{
     res.json({bookings})
 })
 
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+
+
 
 
 
@@ -365,8 +432,9 @@ router.post('/:id/bookings', requireAuth, async(req,res)=>{
         })
     }
     const booking = await Booking.create({
-        spotId: spotId,
+        
         userId: req.user.id,
+        spotId: spotId,
         startDate: new Date(req.body.startDate).toISOString().slice(0, 10),
         endDate: new Date(req.body.endDate).toISOString().slice(0, 10),
     })
@@ -390,16 +458,11 @@ router.post('/:id/bookings', requireAuth, async(req,res)=>{
         statusCode: 404
     })
 }
- try {
+
      await spot.update(updateSpot);
+     res.status(200).json(spot)
      
-   } catch (err) {
-    res.status(400).json({
-      message: "Validation Error",
-       statusCode: 400,
-       errors: err.errors.map((error) => error.message)
-     });
-   }
+ 
 })
 
 router.delete('/:id', requireAuth, async (req, res) => {

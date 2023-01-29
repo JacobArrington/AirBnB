@@ -63,12 +63,12 @@ module.exports = (sequelize, DataTypes) => {
      
     },
     lat:{
-      type:DataTypes.DECIMAL,
+      type:DataTypes.FLOAT,
       allowNull: false,
       
     },
     lng: {
-      type:DataTypes.DECIMAL,
+      type:DataTypes.FLOAT,
       allowNull: false,
      
     },

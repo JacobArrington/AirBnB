@@ -16,8 +16,8 @@ module.exports = {
         city: 'Knoxville',
         state: 'Tennessee',
         country: 'USA',
-        lat: '123.345',
-        lng: '-567.789',
+        lat: 80.345,
+        lng: 12.789,
         name: 'Spot1',
         description: 'This is the first spot',
         price: 50.00
@@ -28,8 +28,8 @@ module.exports = {
         city: 'Asheville',
         state: 'North Carolina',
         country: 'USA',
-        lat: '112.34',
-        lng: '-56.78',
+        lat: 10.34,
+        lng: -56.78,
         name: 'Spot2',
         description: 'This is the second spot',
         price: 75.00
@@ -40,8 +40,8 @@ module.exports = {
         city: 'Charlston',
         state: 'South Carolina',
         country: 'USA',
-        lat: '122.34',
-        lng: '-456.78',
+        lat: 20.34,
+        lng: 56.78,
         name: 'Spot3',
         description: 'This is the third spot',
         price: 100.00
