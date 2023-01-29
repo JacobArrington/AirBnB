@@ -368,7 +368,7 @@ router.post('/:id/bookings', requireAuth, async(req,res)=>{
         spotId: spotId,
         userId: req.user.id,
         startDate: new Date(req.body.startDate).toISOString().slice(0, 10),
-        endDate: new Date(req.body.startDate).toISOString().slice(0, 10),
+        endDate: new Date(req.body.endDate).toISOString().slice(0, 10),
     })
     res.json(booking)
 })
@@ -392,21 +392,7 @@ router.post('/:id/bookings', requireAuth, async(req,res)=>{
 }
  try {
      await spot.update(updateSpot);
-    res.json({
-        id: spot.id,
-        ownerId: spot.ownerId,
-        address: spot.address,
-        city: spot.city,
-        state: spot.state,
-        country: spot.country,
-        lat: spot.lat,
-        lng: spot.lng,
-        name: spot.name,
-        description: spot.description,
-        price: spot.price,
-        createdAt: spot.createdAt,
-        updatedAt: spot.updatedAt
-    });
+     
    } catch (err) {
     res.status(400).json({
       message: "Validation Error",

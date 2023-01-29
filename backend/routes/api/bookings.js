@@ -70,7 +70,7 @@ router.put('/:id',requireAuth,validateBooking,async(req,res)=>{
     }
 
     
-    if (booking.endDate < new Date()) {
+    if (new Date(req.body.endDate) < new Date()) {
         return res.status(403).json({
             message: "Past bookings can't be modified",
             statusCode: 403
@@ -110,4 +110,41 @@ router.put('/:id',requireAuth,validateBooking,async(req,res)=>{
     });
   res.status(200).json(booking)
 })
+
+
+router.delete('/:id', requireAuth, async(req,res)=>{
+const bookingId = req.params.id
+const booking = await Booking.findByPk(bookingId)
+ 
+if(!booking) {
+    return res.status(404).json({
+        message: "Booking couldn't be found",
+        statusCode: 404
+    })
+ }
+ if(booking.userId !==req.user.id && booking.spot.userId !== req.user.id){
+    return res.status(403).json({
+        message: "Unauthorized to delete this booking",
+        statusCode: 403
+    })
+    
+ }
+ if(booking.startDate < new Date()){
+    return res.status(403).json({
+        message: "Bookings that have been started can't be deleted",
+        statusCode: 403
+    })
+    
+ }
+ await booking.destroy();
+
+ return res.status(200).json({
+    message:"Successfully deleted",
+    statusCode: 200
+ })
+
+})
+
+
+
 module.exports = router;
