@@ -208,7 +208,7 @@ router.get('/:id', async (req, res) => {
         }
     ],
 
-        group: ['Spot.id', 'Spot.ownerId']
+        group: ['Owner.id']
 
 
     })
@@ -231,7 +231,7 @@ router.get('/:id', async (req, res) => {
     }else{
         spot.dataValues.SpotImages = image
     }
-    res.json(spot)
+    res.json({Spots:spot})
 })
 
 router.get('/:id/bookings',requireAuth, async(req,res)=>{
