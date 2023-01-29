@@ -205,7 +205,7 @@ router.get('/:id', async (req, res) => {
         }
     ],
 
-        group: ['Spotgi.id']
+        group: ['Spot.id']
 
 
     })
