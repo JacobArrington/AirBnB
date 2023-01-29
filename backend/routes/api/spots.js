@@ -186,11 +186,8 @@ router.get('/:id', async (req, res) => {
 
             include: [[sequelize.fn('COALESCE', sequelize.fn('AVG',
                 sequelize.col('Reviews.stars')), 0), 'averageStarRating'],
-                // [sequelize.fn('COALESCE', sequelize.col('SpotImages.url'),
-                // sequelize.literal("'no image preview has been uploaded'")),
-                //  'previewImage'],
                 [sequelize.fn('COUNT', sequelize.col('Reviews.id')),'numReviews']],
-            // make sure all spot images 
+            
 
         },
 
@@ -202,8 +199,8 @@ router.get('/:id', async (req, res) => {
         },
       
         {
-            model:User,
-            as:'Owner',
+            model: User,
+            as: 'Owner',
             attributes: ['id','firstName','lastName'],
         }
     ],
