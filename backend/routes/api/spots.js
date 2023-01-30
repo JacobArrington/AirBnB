@@ -182,33 +182,41 @@ router.get('/:id/reviews', async(req,res)=>{
 router.get('/:id', async (req, res) => {
     const spotId = req.params.id
     const spot = await Spot.findByPk(spotId, {
-        attributes: {
+   //     attributes: {
 
-            include: [[sequelize.fn('COALESCE', sequelize.fn('AVG',
-                sequelize.col('Reviews.stars')), 0), 'averageStarRating'],
-                [sequelize.fn('COUNT', sequelize.col('Reviews.id')),'numReviews']],
+    //         include: [[sequelize.fn('COALESCE', sequelize.fn('AVG',
+    //             sequelize.col('Reviews.stars')), 0), 'averageStarRating'],
+    //             [sequelize.fn('COUNT', sequelize.col('Reviews.id')),'numReviews']],
             
 
-        },
+    //     },
 
-        include: [{
-            model: Review,
-            required: false,
-            attributes: [],
-            subQuery: false,
-        },
+    //     include: [{
+    //         model: Review,
+    //         required: false,
+    //         attributes: [],
+    //         subQuery: false,
+    //     },
       
-        {
-            model: User,
-            as: 'Owner',
-            attributes: ['id','firstName','lastName'],
-        }
-    ],
+    //     {
+    //         model: User,
+    //         as: 'Owner',
+    //         attributes: ['id','firstName','lastName'],
+        //}
+    // ],
 
-         group: ['Spot.id', 'Spot.Owner.id']
+    //      group: ['Spot.id', 'Spot.Owner.id']
 
 
     })
+
+
+    
+    const user = await User.findOne({where:{
+        id: spot.ownerId
+        
+    }})
+    console.log(user)
     const image = await SpotImage.findAll({
         where:{
              spotId: spotId
@@ -225,8 +233,30 @@ router.get('/:id', async (req, res) => {
             message:"Spot couldn't be found",
             statusCode: 404
         })
+
     }else{
+        const user = await User.findOne({where:{
+            id: spot.ownerId
+
+            
+        }})
+
+        console.log(user)
+        const image = await SpotImage.findAll({
+            where:{
+                 spotId: spotId
+            },
+            attributes:['id','url', 'preview']
+        });
+       spot.dataValues.Owner = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName
+        
+
+       }
         spot.dataValues.SpotImages = image
+
     }
     res.json({Spots:spot})
 })
