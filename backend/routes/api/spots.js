@@ -142,7 +142,7 @@ router.get('/current',requireAuth, async (req, res) => {
         group: ['Spot.id', 'SpotImages.url', 'Spot.ownerId']
 
     })
-    res.json({ spots })
+    res.json({ Spots:spots })
 })
 
 router.get('/:id/reviews', async(req,res)=>{
@@ -212,11 +212,8 @@ router.get('/:id', async (req, res) => {
 
 
     
-    const user = await User.findOne({where:{
-        id: spot.ownerId
-        
-    }})
-    console.log(user)
+    
+
     const image = await SpotImage.findAll({
         where:{
              spotId: spotId
@@ -241,7 +238,7 @@ router.get('/:id', async (req, res) => {
             
         }})
 
-        console.log(user)
+       
         const image = await SpotImage.findAll({
             where:{
                  spotId: spotId
