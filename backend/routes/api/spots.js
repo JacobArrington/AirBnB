@@ -289,7 +289,7 @@ router.get('/:id/bookings',requireAuth, async(req,res)=>{
             
         })
     }
-    res.json({bookings})
+    res.json({Bookings: bookings})
 })
 
 
