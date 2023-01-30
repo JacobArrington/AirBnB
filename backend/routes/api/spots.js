@@ -176,7 +176,7 @@ router.get('/:id/reviews', async(req,res)=>{
     })
  
     
-    res.json({reviews})
+    res.json({Reviews: reviews})
 })
 
 router.get('/:id', async (req, res) => {
