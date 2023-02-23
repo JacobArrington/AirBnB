@@ -14,7 +14,7 @@ const setSessionUser = (user) => ({
     type: REMOVE_SESSION_USER,
   });
   
-  // Thunk action creator
+  // Login Thunk
   export const login = ({ credential, password }) => async (dispatch) => {
     const response = await csrfFetch('/api/session', {
       method: 'POST',
@@ -22,6 +22,12 @@ const setSessionUser = (user) => ({
     });
     const data = await response.json();
     dispatch(setSessionUser(data.user));
+  };
+  export const restoreUser = () => async dispatch => {
+    const response = await csrfFetch('/api/session');
+    const data = await response.json();
+    dispatch(setSessionUser(data.user));
+    return response;
   };
 
 // Initial state
