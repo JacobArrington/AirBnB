@@ -23,12 +23,35 @@ const setSessionUser = (user) => ({
     const data = await response.json();
     dispatch(setSessionUser(data.user));
   };
+
+ 
+  // restore user thunk
   export const restoreUser = () => async dispatch => {
     const response = await csrfFetch('/api/session');
     const data = await response.json();
     dispatch(setSessionUser(data.user));
     return response;
   };
+
+ 
+  // SignUp Thunk 
+  export const signup = (user) => async (dispatch) => {
+    const { username, firstName, lastName, email, password } = user;
+    const response = await csrfFetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify({
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+      }),
+    });
+    const data = await response.json();
+    dispatch(setSessionUser(data.user));
+    return response;
+  };
+
 
 // Initial state
 const initialState = {
@@ -37,17 +60,16 @@ const initialState = {
 
 // Reducer
 const sessionReducer = (state = initialState, action) => {
+  let newState;
   switch (action.type) {
     case SET_SESSION_USER:
-      return {
-        ...state,
-        user: action.payload,
-      };
+      newState = Object.assign({}, state);
+      newState.user = action.payload;
+      return newState;
     case REMOVE_SESSION_USER:
-      return {
-        ...state,
-        user: null,
-      };
+      newState = Object.assign({}, state);
+      newState.user = null;
+      return newState;
     default:
       return state;
   }
