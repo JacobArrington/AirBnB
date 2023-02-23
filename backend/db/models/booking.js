@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Booking.belongsTo(models.User,{
         foreignKey: 'userId'
+       
       })
       Booking.belongsTo(models.Spot,{
         foreignKey: 'spotId'
@@ -22,12 +23,14 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     spotId: DataTypes.INTEGER,
     startDate:{
-      type: DataTypes.DATE,
-      allowNull: false
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+      defaultValue: sequelize.fn('NOW'),
     },
     endDate:{
-      type: DataTypes.DATE,
-      allowNull: false
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+      defaultValue: sequelize.fn('NOW'),
     }, 
   }, {
     sequelize,

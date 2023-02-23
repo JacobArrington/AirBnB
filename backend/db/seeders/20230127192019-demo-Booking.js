@@ -10,40 +10,40 @@ module.exports = {
     options.tableName = 'Bookings'
     await queryInterface.bulkInsert(options,[
       {
-        userId: 2,
-        spotId: 1,
-        startDate: '2023-05-04',
-        endDate: '2023-08-04'
+        userId: 1,
+        spotId: 2,
+        startDate: '2023-04-18',
+        endDate: '2023-04-20'
+    },
+    {
+      userId: 2,
+      spotId: 2,
+      startDate: '2023-12-04',
+      endDate: '2023-12-07'
     },
     {
       userId: 3,
       spotId: 1,
-      startDate: '2023-12-04',
-      endDate: '2023-15-04'
-    },
-    {
-      userId: 5,
-      spotId: 2,
       startDate: '2023-05-04',
       endDate: '2023-08-04'
     },
     {
       userId: 4,
       spotId: 2,
-      startDate: '2023-12-04',
-      endDate: '2023-15-04'
+      startDate: '2023-06-04',
+      endDate: '2023-06-07'
     },
     {
-      userId: 1,
+      userId: 5,
       spotId: 3,
       startDate: '2023-12-04',
-      endDate: '2023-15-04'
+      endDate: '2023-12-04'
     },
     {
       userId: 2,
       spotId: 1,
       startDate: '2023-12-04',
-      endDate: '2023-15-04'
+      endDate: '2023-12-07'
     },
 
 

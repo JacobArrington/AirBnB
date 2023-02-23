@@ -16,19 +16,25 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Spot.belongsTo(models.User,{
         foreignKey: 'ownerId',
-        as: 'Owner'
+        as: 'Owner',
+        
       })
       Spot.hasMany(models.Review,{
         foreignKey: 'spotId',
-        onDelete: "CASCADE"
+        onDelete: "cascade",
+        hooks: true
+
       })
       Spot.hasMany(models.SpotImage,{
         foreignKey: 'spotId',
-        onDelete: "CASCADE"
+        onDelete: "cascade",
+        hooks: true,
+   
       })
       Spot.hasMany(models.Booking,{
         foreignKey: 'spotId',
-        onDelete: "CASCADE"
+        onDelete: "cascade",
+        hooks: true
       })
     }
   }
@@ -57,12 +63,12 @@ module.exports = (sequelize, DataTypes) => {
      
     },
     lat:{
-      type:DataTypes.DECIMAL,
+      type:DataTypes.FLOAT,
       allowNull: false,
       
     },
     lng: {
-      type:DataTypes.DECIMAL,
+      type:DataTypes.FLOAT,
       allowNull: false,
      
     },
@@ -76,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
     },
     price: {
-      type:DataTypes.DECIMAL,
+      type:DataTypes.FLOAT,
       allowNull: false,
      
     },
