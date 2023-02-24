@@ -13,6 +13,8 @@ const setSessionUser = (user) => ({
   const removeSessionUser = () => ({
     type: REMOVE_SESSION_USER,
   });
+
+  // thunks
   
   // Login Thunk
   export const login = ({ credential, password }) => async (dispatch) => {
