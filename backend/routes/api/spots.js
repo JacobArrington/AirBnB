@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
     if (!maxPrice) { maxPrice = 100000 }
     page = Number(page)
     size = Number(size)
-    console.log(page,size, "!!!!!!!!!!!!!")
+    //console.log(page,size, "!!!!!!!!!!!!!")
     const spots = await Spot.findAll({
     
         where: {
