@@ -14,7 +14,7 @@ module.exports = {
       preview: true
   }, {
       spotId: 2,
-      url: 'https://example.com/image2.jpg',
+      url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677538054/biltmore-house-biltmore-estate-asheville-nc-usa-TR80EC_lmt9um.jpg',
       preview: true
   }, {
       spotId: 3,
