@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSpots } from "../../store/spots";
+import { NavLink } from 'react-router-dom';
 
 
 const LandingPage = () => {
@@ -14,15 +15,20 @@ const LandingPage = () => {
         dispatch(fetchSpots())
     },[dispatch])
 
-    console.log(spots.Spots)
+    //console.log(spots.Spots)
     const previewImage = spots?.Spots
  console.log(previewImage)
     return(
         <>
         {previewImage?.map(spot => (
     <div key={spot.id}>
-        <img src={spot.imageUrl} alt={spot.name} />
-       <p>{spot.name}</p>
+        <NavLink  to={`/spots/${spot.id}`}>
+        <img src={spot.previewImage} alt={spot.name} />
+       <p>{spot.city }</p>
+       <p>{spot.state}</p>
+       <p>{spot.price} night</p>
+       <p>{spot.avgRating}</p>
+       </NavLink>
    </div> ))}
 
         

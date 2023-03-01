@@ -10,7 +10,7 @@ module.exports = {
     options.tableName = 'SpotImages'
     await queryInterface.bulkInsert(options, [{
       spotId: 1,
-      url: 'https://example.com/image1.jpg',
+      url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677617116/172047_191956997494526_1462028_o_ngaye3.jpg',
       preview: true
   }, {
       spotId: 2,
@@ -18,7 +18,7 @@ module.exports = {
       preview: true
   }, {
       spotId: 3,
-      url: 'https://example.com/image3.jpg',
+      url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677617127/358-Ralston-Creek_fxge8d.jpg',
       preview: true
   }], {});
   },
