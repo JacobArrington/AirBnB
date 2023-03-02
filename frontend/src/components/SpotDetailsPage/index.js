@@ -17,7 +17,8 @@ const SpotDetails = () =>{
     //const detail = spot?.spotDetails?.Spot
     const detail = spot.spotDetails
     if (detail === undefined) return <div> detail not found </div>
-    const spotInfo = detail.Spot
+    const spotInfo = detail?.Spot
+    
    
     console.log(detail,'!!!!!!!!!!!!!!')
 

@@ -29,6 +29,7 @@ const LandingPage = () => {
        <p>{spot.price} night</p>
        <p>{spot.avgRating}</p>
        </NavLink>
+       
    </div> ))}
 
         
