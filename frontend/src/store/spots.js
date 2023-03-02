@@ -28,10 +28,8 @@ export const addSpotSuccess =(spot) =>{
 export const addSpotImage = (spotId, images) =>{
     return{
         type:ADD_SPOT_IMAGES,
-        payload:{
-            spotId,
-            images,
-        }
+        spotId,
+        images,
     }
 }
 
@@ -71,7 +69,7 @@ export const postSpot =(spotData) => async(dispatch) =>{
 }
 
 export const postSpotImage = (spotId, imageUrls) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +77,7 @@ export const postSpotImage = (spotId, imageUrls) => async (dispatch) => {
       body: JSON.stringify({ imageUrls }),
     });
     if (response.ok) {
-      const { images } = await response.json();
+      const { images } = await response?.json();
       dispatch(addSpotImage(spotId, images));
     }
   };
@@ -107,7 +105,7 @@ const initSpotState = {
         case ADD_SPOT:
             return{
                 ...state,
-                spots:[...state?.spots, [action.spots]],
+                spots:[...state?.spots, [action?.spots]],
                 spotImages:{
                     ...state?.spotImages,
                     [action?.spots?.id]: action.spots?.images
@@ -122,7 +120,7 @@ const initSpotState = {
     Spots: state?.spots?.map((spot) => {
       if (spot.id === spotId) {
         return {
-          ...spot,
+          ...state?.spots,
           images: [...spot?.images, ...newImages],
         };
       }
