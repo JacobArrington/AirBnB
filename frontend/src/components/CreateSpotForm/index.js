@@ -19,61 +19,50 @@ function CreateSpotForm() {
         city: '',
         state: '',
         country: '',
+       images:[]
        
-     })
-     const[spotImages, setSpotImages] = useState({
-        previewImage: '',
-        image1: '',
-        image2: '',
-        image3: '',
-        image4: '',
-        
      })
 
      
 
  
-
-     const handleInputChange = (e) =>{
-        const {name, value} = e.target
-        setFormData((prevState) => ({
-            ...prevState,
-            [name]: value,
-
-        }))
-     }
-
-
-     const handleImageChange = async(e) =>{
-        const {name, value} = e.target
-       
-        setSpotImages((prevState) => ({
-            ...prevState,
-            [name]: value
-        }))
-     }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-       
-   
-      const createdSpot = await dispatch(postSpot(formData))
+     const handleInputChange = (e) => {
+        const { name, value } = e.target;
       
+        setFormData((prevState) => ({
+          ...prevState,
+          [name]: value,
+        }));
+      };
+   
 
-        if(createdSpot){
-            const spotId = createdSpot.id 
-          Object.keys(spotImages).forEach((key)=>{
-            if(key !== 'previewImage' && spotImages[key]){
-              dispatch(postSpotImage(spotId, { image: spotImages[key] }));
-            }else if (spotImages.previewImage) {
-                dispatch(postSpotImage(spotId, { image: spotImages[key], preview: true }));
-              }
-            
-          })
+      const handleImageChange = async (e) => {
+        const { name, value } = e.target;
+      
+        setFormData((prevState) => ({
+          ...prevState,
+          images: [...prevState.images, value],
+        }));
+      
+      };
+   
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+      
+        const createdSpot = await dispatch(postSpot(formData));
+      
+        if (createdSpot) {
+          const spotId = createdSpot.id;
+      
+          formData.images.forEach(async (imageUrl, index) => {
+            await dispatch(postSpotImage(spotId, { imageUrl, index }));
+          });
+      
           dispatch(fetchSpots());
-          history.push(`/spots/${spotId}`)
-    }
-    }
+          history.push(`/spots/${spotId}`);
+        }
+      };
+ 
     return (
         <form className="spot-form" onSubmit={handleSubmit}>
              <input type="hidden" name="_csrf" value={csrfToken} />
