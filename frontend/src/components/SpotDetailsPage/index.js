@@ -18,25 +18,25 @@ const SpotDetails = () =>{
     const detail = spot.spotDetails
     if (detail === undefined) return <div> detail not found </div>
     const spotInfo = detail?.Spot
-    
+
    
-    console.log(detail,'!!!!!!!!!!!!!!')
+   
 
     return(
       <div>
         
           
-           <h2>{spotInfo.name}</h2>
-           <p>{spotInfo.city},{spotInfo.state},{spotInfo.country}</p>
+           <h2>{spotInfo?.name}</h2>
+           <p>{spotInfo?.city},{spotInfo?.state},{spotInfo?.country}</p>
            <div>
-           {spotInfo.SpotImages.map(image =>(
-            <img key={image.id} src={image.url} alt={spotInfo.name}></img>
+           {spotInfo?.SpotImages?.map(image =>(
+            <img key={image?.id} src={image?.url} alt={spotInfo?.name}></img>
            ))}
             </div>
-            <p>Hosted by {spotInfo.Owner.firstName} {spotInfo.Owner.lastName}</p>
-            <p>{spotInfo.price} night</p>
-            <p>{spotInfo.avgStarRating}</p>
-            <p>{spotInfo.numReviews}</p>
+            <p>Hosted by {spotInfo?.Owner?.firstName} {spotInfo?.Owner?.lastName}</p>
+            <p>{spotInfo?.price} night</p>
+            <p>{spotInfo?.avgStarRating}</p>
+            <p>{spotInfo?.numReviews ? spotInfo.numReviews : 'New'}</p>
         
        </div>
     )

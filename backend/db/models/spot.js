@@ -64,12 +64,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     lat:{
       type:DataTypes.FLOAT,
-      allowNull: false,
+     
       
     },
     lng: {
       type:DataTypes.FLOAT,
-      allowNull: false,
+      
      
     },
     name: {

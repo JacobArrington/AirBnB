@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { postSpot, postSpotImage } from '../../store/spots';
-import { csrfFetch } from '../../store/csrf';
+import { postSpot, postSpotImage, fetchSpots } from '../../store/spots';
+
 
 
 function CreateSpotForm() {
@@ -22,7 +22,7 @@ function CreateSpotForm() {
        
      })
      const[spotImages, setSpotImages] = useState({
-        previewImage: 'Preview Image URL',
+        previewImage: '',
         image1: '',
         image2: '',
         image3: '',
@@ -32,15 +32,7 @@ function CreateSpotForm() {
 
      
 
-     // Change Handlers
-    //  useEffect(() => {
-    //     async function fetchCsrfToken() {
-    //       const response = await csrfFetch('/api/csrf/restore');
-    //       const data = await response.json();
-    //       setCsrfToken(data.csrfToken);
-    //     }
-    //     fetchCsrfToken();
-    //   }, []);
+ 
 
      const handleInputChange = (e) =>{
         const {name, value} = e.target
@@ -63,20 +55,10 @@ function CreateSpotForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-      const formDataWithImages = new FormData()
-     // formDataWithImages.append('previewImage',spotImages.previewImage)
-     // formDataWithImages.append('image1',spotImages.image1)
-      //formDataWithImages.append('image2',spotImages.image2)
-      //formDataWithImages.append('image3',spotImages.image3)
-      //formDataWithImages.append('image4',spotImages.image4)
-      //console.log(formDataWithImages)
-      Object.keys(formData).forEach((key) =>{
-        formDataWithImages.append(key,formData[key])
-        console.log(key,formData[key])
-        
-      })
-      console.log(formDataWithImages)
-      const createdSpot = await dispatch(postSpot(formDataWithImages))
+       
+   
+      const createdSpot = await dispatch(postSpot(formData))
+      
 
         if(createdSpot){
             const spotId = createdSpot.id 
@@ -88,6 +70,7 @@ function CreateSpotForm() {
               }
             
           })
+          dispatch(fetchSpots());
           history.push(`/spots/${spotId}`)
     }
     }
