@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { postSpot, postSpotImage, fetchSpots } from '../../store/spots';
+import { postSpot,  fetchSpots } from '../../store/spots';
+import { addSpotImage } from '../../store/Images';
 
 
 
@@ -11,52 +12,112 @@ function CreateSpotForm() {
     // states
     const [csrfToken, setCsrfToken] = useState('')
 
-     const [formData, setFormData] = useState({
-        name: '',
-        description: '',
-        price: 1,
-        address: '',
-        city: '',
-        state: '',
-        country: '',
-       images:[]
-       
-     })
+    
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState(1);
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [country, setCountry] = useState('');
+    const [previewImage, setPreviewImage] = useState('');
+    const [image1, setImage1] = useState('');
+    const [image2, setImage2] = useState('');
+    const [image3, setImage3] = useState('');
+    const [image4, setImage4] = useState('');
+
+
 
      
-
+ const handleInputChange = (e) => {
+    const {name, value} = e.target;
+    switch (name){
+        case 'name':
+            setName(value)
+            break;
+        case 'description':
+            setDescription(value)
+            break;
+        case 'price':
+            setPrice(value)
+            break;
+        case 'address':
+            setAddress(value)
+            break;
+        case 'city':
+            setCity(value)
+            break;
+        case 'state':
+            setState(value)
+            break;
+        case 'country':
+            setCountry(value)
+            break;
+            default:
+                return
+        
+        
+        
+            
+    }
+ }
  
-     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-      
-        setFormData((prevState) => ({
-          ...prevState,
-          [name]: value,
-        }));
-      };
+
    
 
-      const handleImageChange = async (e) => {
-        const { name, value } = e.target;
-      
-        setFormData((prevState) => ({
-          ...prevState,
-          images: [...prevState.images, value],
-        }));
+      const handleImageChange =  (e) => {
+        const {name, value} = e.target;
+        switch(name){
+            case 'previewImage':
+                setPreviewImage(value)
+                break;
+            case 'image1':
+                setImage1(value)
+                break
+            case 'image2':
+                 setImage2(value)
+                 break
+            case 'image3':
+                setImage3(value)
+                break
+            case 'image4':
+                setImage4(value)
+                break
+            default:
+                return
+        }
+          
       
       };
    
       const handleSubmit = async (e) => {
         e.preventDefault();
+
+        
+    const formData = {
+        name,
+        description,
+        price,
+        address,
+        city,
+        state,
+        country,
+        images: [previewImage, image1, image2, image3, image4],
+        };
       
+        console.log(formData, '!!!!!!!!!!!!!')
         const createdSpot = await dispatch(postSpot(formData));
+        console.log(createdSpot, '!!!!!!!!!!!!!')
       
         if (createdSpot) {
           const spotId = createdSpot.id;
       
           formData.images.forEach(async (imageUrl, index) => {
-            await dispatch(postSpotImage(spotId, { imageUrl, index }));
-          });
+            if (imageUrl.trim() !== '') {
+                await dispatch(addSpotImage(spotId, imageUrl, index));
+              }
+            });
+          
       
           dispatch(fetchSpots());
           history.push(`/spots/${spotId}`);

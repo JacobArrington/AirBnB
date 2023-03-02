@@ -68,19 +68,7 @@ export const postSpot =(spotData) => async(dispatch) =>{
     
 }
 
-export const postSpotImage = (spotId, imageUrls) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${spotId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ imageUrls }),
-    });
-    if (response.ok) {
-      const { images } = await response?.json();
-      dispatch(addSpotImage(spotId, images));
-    }
-  };
+
   
   
   
@@ -88,9 +76,7 @@ export const postSpotImage = (spotId, imageUrls) => async (dispatch) => {
 
 // Reducer and State
 const initSpotState = {
-    spots: [],
-    spotDetails: null,
-    spotImages:[]
+    
 }
 
  const spotReducer =(state = initSpotState, action) =>{
@@ -103,30 +89,11 @@ const initSpotState = {
                 spotDetails: action?.spotDetails
             }
         case ADD_SPOT:
-            return{
-                ...state,
-                spots:[...state?.spots, [action?.spots]],
-                spotImages:{
-                    ...state?.spotImages,
-                    [action?.spots?.id]: action.spots?.images
-                },
+            return  {...state, [action.spot.id] : action.spot};
+               
                 
-            }
-            case ADD_SPOT_IMAGES:
-  const spotId = action?.payload?.spotId;
-  const newImages = action?.payload?.images;
-  return {
-    ...state,
-    Spots: state?.spots?.map((spot) => {
-      if (spot.id === spotId) {
-        return {
-          ...state?.spots,
-          images: [...spot?.images, ...newImages],
-        };
-      }
-      return spot;
-    }),
-  };
+            
+          
       
         default:
             return state
