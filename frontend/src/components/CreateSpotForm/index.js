@@ -105,10 +105,9 @@ function CreateSpotForm() {
         images: [previewImage, image1, image2, image3, image4],
         };
       
-        console.log(formData, '!!!!!!!!!!!!!')
+        
         const createdSpot = await dispatch(postSpot(formData));
-        console.log(createdSpot, '!!!!!!!!!!!!!')
-      
+        
         if (createdSpot) {
           const spotId = createdSpot.id;
       

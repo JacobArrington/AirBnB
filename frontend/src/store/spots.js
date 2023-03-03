@@ -51,18 +51,29 @@ export const fetchSpotDetail = (spotId) => async(dispatch) =>{
 }
 
 export const postSpot =(spotData) => async(dispatch) =>{
-    console.log(spotData)
+    const {name,description, price, address, city, state, country, images,} = spotData
+    //console.log(images)
     const response = await csrfFetch('/api/spots',{
         method: 'POST',
         headers:{
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(spotData)
+        body: JSON.stringify({name,description, price, address, city, state, country,})
     })
     if (response.ok){
         const createdSpot = await response.json()
         dispatch(addSpotSuccess(createdSpot))
-        console.log(createdSpot)
+       for await(let image of images ){
+            let imageRes = await csrfFetch(`/api/spots/${createdSpot.id}/images`,{
+                method: 'POST',
+                body: JSON.stringify({url:image, preview:true})
+            })
+            if(imageRes.ok){
+                imageRes = await imageRes.json()
+                console.log(imageRes)
+            }
+       }
+        
         return createdSpot
     }
     
