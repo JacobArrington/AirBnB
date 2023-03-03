@@ -15,7 +15,7 @@ const SpotDetails = () =>{
 
     //line 16 === lines 18- 20 
     //const detail = spot?.spotDetails?.Spot
-    const detail = spot.spotDetails
+    const detail = spot?.spotDetails
     if (detail === undefined) return <div> detail not found </div>
     const spotInfo = detail?.Spot
 
@@ -35,7 +35,7 @@ const SpotDetails = () =>{
             </div>
             <p>Hosted by {spotInfo?.Owner?.firstName} {spotInfo?.Owner?.lastName}</p>
             <p>{spotInfo?.price} night</p>
-            <p>{spotInfo?.avgStarRating}</p>
+            <p>{spotInfo?.avgStarRating }</p>
             <p>{spotInfo?.numReviews ? spotInfo.numReviews : 'New'}</p>
         
        </div>

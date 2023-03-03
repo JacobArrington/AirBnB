@@ -23,7 +23,7 @@ const LandingPage = () => {
         {previewImage?.map(spot => (
     <div key={spot.id}>
         <NavLink  to={`/spots/${spot.id}`}>
-        <img src={spot.previewImage} alt={spot.name} />
+        <img src={spot?.previewImage} alt={spot?.name} />
        <p>{spot.city }</p>
        <p>{spot.state}</p>
        <p>{spot.price} night</p>

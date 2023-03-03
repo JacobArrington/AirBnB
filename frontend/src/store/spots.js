@@ -5,6 +5,7 @@ const SET_SPOTS = 'spots/SET_SPOTS'
 const GET_SPOT_DETAIL = 'spots/GET_SPOT_DETAIL'
 const ADD_SPOT = 'spots/ADD_SPOT'
 const ADD_SPOT_IMAGES = 'spots/ADD_SPOT_IMAGES'
+
 export const setSpots = (spots) => {
     return{
         type: SET_SPOTS,
@@ -55,10 +56,8 @@ export const postSpot =(spotData) => async(dispatch) =>{
     //console.log(images)
     const response = await csrfFetch('/api/spots',{
         method: 'POST',
-        headers:{
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({name,description, price, address, city, state, country,})
+      
+        body: JSON.stringify({name,description, price, address, city, state, country})
     })
     if (response.ok){
         const createdSpot = await response.json()
@@ -93,14 +92,14 @@ const initSpotState = {
  const spotReducer =(state = initSpotState, action) =>{
     switch(action.type){
         case SET_SPOTS:
-            return action?.spots
+            return {...state, ...action.spots}
         case GET_SPOT_DETAIL:
             return {
                 ...state,
                 spotDetails: action?.spotDetails
             }
         case ADD_SPOT:
-            return  {...state, [action.spot.id] : action.spot};
+            return  { ...state, [action.spot.id]:action.spot,  };
                
                 
             

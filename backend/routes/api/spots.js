@@ -37,8 +37,8 @@ router.get('/', async (req, res) => {
     const spots = await Spot.findAll({
     
         where: {
-            lat: { [Op.between]: [minLat, maxLat] },
-            lng: { [Op.between]: [minLng, maxLng] },
+            //lat: { [Op.between]: [minLat, maxLat] },
+            //lng: { [Op.between]: [minLng, maxLng] },
             price: { [Op.between]: [minPrice, maxPrice] },
         },
 /*
@@ -102,8 +102,8 @@ router.get('/', async (req, res) => {
        
     res.json({ 
         Spots:spots,
-        page,
-        size
+        //page,
+        //size
         
 
 })
