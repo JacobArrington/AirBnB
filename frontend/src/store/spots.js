@@ -2,9 +2,9 @@ import { csrfFetch } from "./csrf"
 
 // Actions
 const SET_SPOTS = 'spots/SET_SPOTS'
-//const GET_SPOT_DETAIL = 'spots/GET_SPOT_DETAIL'
+const GET_SPOT_DETAIL = 'spots/GET_SPOT_DETAIL'
 const UPDATE_SPOT = 'spots/UPDATE_SPOT'
-const ADD_SPOT_IMAGES = 'spots/ADD_SPOT_IMAGES'
+const ADD_SPOT = 'spots/ADD_SPOT'
 
 export const setSpots = (spots) => {
     return {
@@ -21,19 +21,19 @@ export const updateSpot = (spot) => {
   };
 
 
-// const getSpotDetail = (spotDetails) => {
-//     return {
-//         type: GET_SPOT_DETAIL,
-//         spotDetails
-//     }
-// }
+const getSpotDetail = (spotDetails) => {
+    return {
+        type: GET_SPOT_DETAIL,
+        spotDetails
+    }
+}
 
-// export const addSpotSuccess = (spot) => {
-//     return {
-//         type: ADD_SPOT,
-//         spot
-//     }
-// }
+export const addSpot = (spot) => {
+    return {
+        type: ADD_SPOT,
+        spot
+    }
+}
 
 
 
@@ -59,7 +59,7 @@ export const fetchSpotDetail = (spotId) => async (dispatch) => {
     if (response.ok) {
         const spot = await response.json()
         console.log(spot,'@@@@@@@@ 61')
-        dispatch(updateSpot(spot.Spot))
+        dispatch(getSpotDetail(spot.Spot))
         console.log(spot, `!!!!!!!!!!!!!!!!!!!!! 63`)
     }
 }
@@ -77,7 +77,7 @@ export const postSpot = (spotData) => async (dispatch) => {
     })
     if (response.ok) {
         const createdSpot = await response.json()
-        dispatch(updateSpot(createdSpot))
+        dispatch(addSpot(createdSpot))
         for await (let image of images) {
             let imageRes = await csrfFetch(`/api/spots/${createdSpot.id}/images`, {
                 method: 'POST',
@@ -106,19 +106,30 @@ const initSpotState = {
 }
 
 const spotReducer = (state = initSpotState, action) => {
+   let newState = {}
     switch (action.type) {
+
         case SET_SPOTS:
             return { ...state, ...action?.spots };
-            case UPDATE_SPOT:
+
+            case GET_SPOT_DETAIL:
                 console.log(state)
-                const newState = { ...state };
+                 newState = { ...state ,...action.spotDetails};
                 console.log(newState,'!!!!!!!!!!!!!!! 114')
+                return newState
+
                 
-                if (action?.spot) {
-                  newState[action?.spot?.id] = action?.spot;
-                 console.log(newState,'!!!!!!!!!!!!!!!!!! 118')
-                }
-                return newState;
+                
+            case ADD_SPOT:
+                
+                    newState[action?.spot?.id] = action?.spot;
+                    return newState
+                
+                
+                console.log(newState,'!!!!!!!!!!!!!!!!!! 118')
+            
+                     
+                
 
                 
 

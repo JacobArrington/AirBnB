@@ -6,15 +6,15 @@ import { fetchSpotDetail } from "../../store/spots";
 const SpotDetails = () =>{
     const { id } = useParams()
     const dispatch = useDispatch()
-    const spots = useSelector((state) => state?.spot)
-   //console.log(spots, '!!!!!!!!!!!!!!!! 10', spots.id)
+    const spot = useSelector((state) => state?.spot)
+   console.log(spot, '!!!!!!!!!!!!!!!! 10', spot.id)
 
     useEffect(() =>{
         dispatch(fetchSpotDetail(id))
         
     },[dispatch, id])
 
-    let spot = spots.id;
+   //let spot = Object.values(spots)[1]
     console.log(spot,'!!!!!!!!!!!!!!!!!!!!!!! 18')
     // if(spots.id){
     //     console.log(spots.id,'@@@@@@@@@@@@@@@@@@@@@@@')
@@ -29,7 +29,7 @@ const SpotDetails = () =>{
    
    return(
     <div>
-    {spots.id &&(<div>
+    {spot &&(<div>
         
           
         <h2>{spot?.name}</h2>
