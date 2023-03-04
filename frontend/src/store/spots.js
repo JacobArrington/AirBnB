@@ -2,37 +2,40 @@ import { csrfFetch } from "./csrf"
 
 // Actions
 const SET_SPOTS = 'spots/SET_SPOTS'
-const GET_SPOT_DETAIL = 'spots/GET_SPOT_DETAIL'
-const ADD_SPOT = 'spots/ADD_SPOT'
+//const GET_SPOT_DETAIL = 'spots/GET_SPOT_DETAIL'
+const UPDATE_SPOT = 'spots/UPDATE_SPOT'
 const ADD_SPOT_IMAGES = 'spots/ADD_SPOT_IMAGES'
 
 export const setSpots = (spots) => {
-    return{
+    return {
         type: SET_SPOTS,
         spots
     }
 }
-const getSpotDetail =(spotDetails) =>{
+
+export const updateSpot = (spot) => {
     return {
-        type: GET_SPOT_DETAIL,
-        spotDetails
-    }
-}
+      type: UPDATE_SPOT,
+      spot
+    };
+  };
 
-export const addSpotSuccess =(spot) =>{
-    return{
-        type:ADD_SPOT,
-        spot
-    }
-}
 
-export const addSpotImage = (spotId, images) =>{
-    return{
-        type:ADD_SPOT_IMAGES,
-        spotId,
-        images,
-    }
-}
+// const getSpotDetail = (spotDetails) => {
+//     return {
+//         type: GET_SPOT_DETAIL,
+//         spotDetails
+//     }
+// }
+
+// export const addSpotSuccess = (spot) => {
+//     return {
+//         type: ADD_SPOT,
+//         spot
+//     }
+// }
+
+
 
 //Thunks
 export const fetchSpots = () => async (dispatch) => {
@@ -43,68 +46,84 @@ export const fetchSpots = () => async (dispatch) => {
     //return spots
 }
 
-export const fetchSpotDetail = (spotId) => async(dispatch) =>{
+export const fetchCurrentUserSpots = () => async (dispatch, getState) => {
+    // const ownerId = getState().session.user.id;
+    const response = await csrfFetch(`/api/spots/current`)
+    const { spots } = await response.json()
+    dispatch(setSpots(spots))
+
+}
+
+export const fetchSpotDetail = (spotId) => async (dispatch) => {
     const response = await fetch(`/api/spots/${spotId}`)
-    if(response.ok){
-    const spotDetail = await response.json()
-    dispatch(getSpotDetail(spotDetail))
+    if (response.ok) {
+        const spot = await response.json()
+        console.log(spot,'@@@@@@@@ 61')
+        dispatch(updateSpot(spot.Spot))
+        console.log(spot, `!!!!!!!!!!!!!!!!!!!!! 63`)
     }
 }
 
-export const postSpot =(spotData) => async(dispatch) =>{
-    const {name,description, price, address, city, state, country, images,} = spotData
+
+
+
+export const postSpot = (spotData) => async (dispatch) => {
+    const { name, description, price, address, city, state, country, images, } = spotData
     //console.log(images)
-    const response = await csrfFetch('/api/spots',{
+    const response = await csrfFetch('/api/spots', {
         method: 'POST',
-      
-        body: JSON.stringify({name,description, price, address, city, state, country})
+
+        body: JSON.stringify({ name, description, price, address, city, state, country })
     })
-    if (response.ok){
+    if (response.ok) {
         const createdSpot = await response.json()
-        dispatch(addSpotSuccess(createdSpot))
-       for await(let image of images ){
-            let imageRes = await csrfFetch(`/api/spots/${createdSpot.id}/images`,{
+        dispatch(updateSpot(createdSpot))
+        for await (let image of images) {
+            let imageRes = await csrfFetch(`/api/spots/${createdSpot.id}/images`, {
                 method: 'POST',
-                body: JSON.stringify({url:image, preview:true})
+                body: JSON.stringify({ url: image, preview: true })
             })
-            if(imageRes.ok){
+            if (imageRes.ok) {
                 imageRes = await imageRes.json()
                 console.log(imageRes)
             }
-       }
-        
+        }
+
         return createdSpot
     }
-    
+
 }
 
 
-  
-  
-  
+
+
+
 
 
 // Reducer and State
 const initSpotState = {
-    
+
 }
 
- const spotReducer =(state = initSpotState, action) =>{
-    switch(action.type){
+const spotReducer = (state = initSpotState, action) => {
+    switch (action.type) {
         case SET_SPOTS:
-            return {...state, ...action.spots}
-        case GET_SPOT_DETAIL:
-            return {
-                ...state,
-                spotDetails: action?.spotDetails
-            }
-        case ADD_SPOT:
-            return  { ...state, [action.spot.id]:action.spot,  };
-               
+            return { ...state, ...action?.spots };
+            case UPDATE_SPOT:
+                console.log(state)
+                const newState = { ...state };
+                console.log(newState,'!!!!!!!!!!!!!!! 114')
                 
-            
-          
-      
+                if (action?.spot) {
+                  newState[action?.spot?.id] = action?.spot;
+                 console.log(newState,'!!!!!!!!!!!!!!!!!! 118')
+                }
+                return newState;
+
+                
+
+
+
         default:
             return state
     }

@@ -6,39 +6,50 @@ import { fetchSpotDetail } from "../../store/spots";
 const SpotDetails = () =>{
     const { id } = useParams()
     const dispatch = useDispatch()
-    const spot = useSelector((state) => state?.spot)
-    
+    const spots = useSelector((state) => state?.spot)
+   //console.log(spots, '!!!!!!!!!!!!!!!! 10', spots.id)
 
     useEffect(() =>{
         dispatch(fetchSpotDetail(id))
+        
     },[dispatch, id])
 
-    //line 16 === lines 18- 20 
-    //const detail = spot?.spotDetails?.Spot
-    const detail = spot?.spotDetails
-    if (detail === undefined) return <div> detail not found </div>
-    const spotInfo = detail?.Spot
+    let spot = spots.id;
+    console.log(spot,'!!!!!!!!!!!!!!!!!!!!!!! 18')
+    // if(spots.id){
+    //     console.log(spots.id,'@@@@@@@@@@@@@@@@@@@@@@@')
+    //     spot = spots.id
+    // }
 
    
+    //if (!spot) return <div> detail not found </div>
+   // const spotInfo = detail?.Spot
+// console.log(spot ,'!!!!!!!!!!!!!!!!! 22')
+// console.log(spot.SpotImages, '!!!!!!!!!!!!!!!!!!!! 23')
    
-
-    return(
-      <div>
+   return(
+    <div>
+    {spots.id &&(<div>
         
           
-           <h2>{spotInfo?.name}</h2>
-           <p>{spotInfo?.city},{spotInfo?.state},{spotInfo?.country}</p>
-           <div>
-           {spotInfo?.SpotImages?.map(image =>(
-            <img key={image?.id} src={image?.url} alt={spotInfo?.name}></img>
-           ))}
-            </div>
-            <p>Hosted by {spotInfo?.Owner?.firstName} {spotInfo?.Owner?.lastName}</p>
-            <p>{spotInfo?.price} night</p>
-            <p>{spotInfo?.avgStarRating }</p>
-            <p>{spotInfo?.numReviews ? spotInfo.numReviews : 'New'}</p>
-        
-       </div>
+        <h2>{spot?.name}</h2>
+        <p>{spot?.city},{spot?.state},{spot?.country}</p>
+        <div>
+     
+        {spot.SpotImages && spot?.SpotImages?.map(image =>(
+         <img key={image?.id} src={image?.url} alt={spot?.name}></img>
+         
+        ))}
+       
+         </div>
+         <p>Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}</p>
+         <p>{spot?.price} night</p>
+         <p>{spot?.avgStarRating }</p>
+         <p>{spot?.numReviews ? spot.numReviews : 'New'}</p>
+     
+    </div>)
+    }
+      </div>
     )
 }
 

@@ -17,6 +17,7 @@ const imageReducer = (state = initState , action) =>{
             return{
                 ...state,
                 images: [state?.images, action?.payload]
+                
             }
             default: 
             return state;

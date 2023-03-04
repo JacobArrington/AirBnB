@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
 import SpotDetails from "./components/SpotDetailsPage";
 import CreateSpotForm from "./components/CreateSpotForm";
+import ManageSpots from "./components/ManageSpots";
 
 
 function App() {
@@ -21,9 +22,11 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path ='/' component ={LandingPage} ></Route>
-          <Route path={`/Spots/new`} ><CreateSpotForm /></Route>
-          <Route path={`/Spots/:id`} ><SpotDetails /></Route>
-         
+          <Route path={`/spots/new`} ><CreateSpotForm /></Route>
+          <Route path ={`/spots/current`} ><ManageSpots /></Route>
+          <Route path={`/spots/:id`} ><SpotDetails /></Route>
+          
+        
         </Switch>
       )}
     </>
