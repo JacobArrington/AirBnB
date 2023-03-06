@@ -30,7 +30,7 @@ function ManageSpots() {
        <p>{spot.avgRating}</p>
        <div>
                        
-       <button>
+       <button type = 'submit'>
             <NavLink to={`/spots/${spot.id}/edit`}>
               Update
             </NavLink>
