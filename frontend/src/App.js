@@ -7,6 +7,7 @@ import LandingPage from "./components/LandingPage";
 import SpotDetails from "./components/SpotDetailsPage";
 import CreateSpotForm from "./components/CreateSpotForm";
 import ManageSpots from "./components/ManageSpots";
+import EditSpotForm from "./components/EditSpotForm";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route exact path ='/' component ={LandingPage} ></Route>
           <Route path={`/spots/new`} ><CreateSpotForm /></Route>
           <Route path ={`/spots/current`} ><ManageSpots /></Route>
+          <Route path ={`spots/:id/edit`}><EditSpotForm /></Route>
           <Route path={`/spots/:id`} ><SpotDetails /></Route>
           
         

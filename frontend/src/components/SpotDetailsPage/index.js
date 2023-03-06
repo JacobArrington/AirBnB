@@ -1,21 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useRouteMatch } from "react-router-dom";
 import { fetchSpotDetail } from "../../store/spots";
+import { editSpot } from "../../store/spots";
+import EditSpotForm from "../EditSpotForm";
 
 const SpotDetails = () =>{
+    //const [isLoaded, setIsLoaded] = useState(false)
     const { id } = useParams()
     const dispatch = useDispatch()
     const spot = useSelector((state) => state?.spot)
-   console.log(spot, '!!!!!!!!!!!!!!!! 10', spot.id)
+    const match = useRouteMatch('/spots/:id/edit')
+   //console.log(spot, '!!!!!!!!!!!!!!!! 10',spot.id)
 
     useEffect(() =>{
-        dispatch(fetchSpotDetail(id))
+        dispatch(fetchSpotDetail(id))//.then(()=> setIsLoaded(true))
         
     },[dispatch, id])
 
+    if(match){
+        //dispatch(editSpot(spot))
+        return <EditSpotForm spot={spot} />
+    }
+
    //let spot = Object.values(spots)[1]
-    console.log(spot,'!!!!!!!!!!!!!!!!!!!!!!! 18')
+    //console.log(spot,'!!!!!!!!!!!!!!!!!!!!!!! 18')
     // if(spots.id){
     //     console.log(spots.id,'@@@@@@@@@@@@@@@@@@@@@@@')
     //     spot = spots.id
@@ -33,11 +42,11 @@ const SpotDetails = () =>{
         
           
         <h2>{spot?.name}</h2>
-        <p>{spot?.city},{spot?.state},{spot?.country}</p>
+        <p>{spot.city},{spot.state},{spot.country}</p>
         <div>
      
-        {spot.SpotImages && spot?.SpotImages?.map(image =>(
-         <img key={image?.id} src={image?.url} alt={spot?.name}></img>
+        {spot?.SpotImages && spot?.SpotImages?.map(image =>(
+         <img key={image.id} src={image.url} alt={spot.name}></img>
          
         ))}
        

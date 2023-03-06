@@ -29,14 +29,18 @@ function ManageSpots() {
        <p>{spot.price} night</p>
        <p>{spot.avgRating}</p>
        <div>
-                        <NavLink to='#'>
-                            <button>Update</button>
-                        </NavLink>
-                    </div>
+                       
+       <button>
+            <NavLink to={`/spots/${spot.id}/edit`}>
+              Update
+            </NavLink>
+        </button>
+                        
+            </div>
                     <div>
-                        <NavLink to='#'>
+                        
                             <button>Delete</button>
-                        </NavLink>
+                        
                     </div>
        
    </div> ))}

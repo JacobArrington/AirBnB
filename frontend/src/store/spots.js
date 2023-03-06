@@ -91,10 +91,19 @@ export const postSpot = (spotData) => async (dispatch) => {
 
         return createdSpot
     }
-
+        
 }
 
+export const editSpot = (spot) => async (dispatch) =>{
+    const response =  await csrfFetch(`/api/spots/${spot.id}`,{
+        method: 'PUT',
+        body : JSON.stringify(spot)
+    })
+    const updatedSpot = await response.json()
+    dispatch(updateSpot(updatedSpot))
 
+    //return updatedSpot
+}
 
 
 
@@ -112,21 +121,30 @@ const spotReducer = (state = initSpotState, action) => {
         case SET_SPOTS:
             return { ...state, ...action?.spots };
 
-            case GET_SPOT_DETAIL:
-                console.log(state)
-                 newState = { ...state ,...action.spotDetails};
-                console.log(newState,'!!!!!!!!!!!!!!! 114')
-                return newState
+         case GET_SPOT_DETAIL:
+             //  console.log(state)
+             newState = { ...state ,...action.spotDetails};
+             // console.log(newState,'!!!!!!!!!!!!!!! 114')
+             return newState
+
+        case ADD_SPOT:
+            newState[action?.spot?.id] = action?.spot;
+            return newState
+         
+        case UPDATE_SPOT:
+            newState[action?.spot?.id] = action?.spot
+            return newState
+            
+        default:
+            return state
+
 
                 
                 
-            case ADD_SPOT:
-                
-                    newState[action?.spot?.id] = action?.spot;
-                    return newState
                 
                 
-                console.log(newState,'!!!!!!!!!!!!!!!!!! 118')
+                
+               
             
                      
                 
@@ -135,8 +153,6 @@ const spotReducer = (state = initSpotState, action) => {
 
 
 
-        default:
-            return state
     }
 }
 
