@@ -36,7 +36,7 @@ function ManageSpots() {
       const handleDelete = (spotId) => {
         dispatch(removeSpot(spotId)).then(() => {
           dispatch(fetchCurrentUserSpots());
-          handleDeletedSpot(spotId);
+         
           
         });
       };
@@ -60,13 +60,13 @@ function ManageSpots() {
               </button>
             </div>
             <div>
-              <button onClick={() =>handleDelete(spot.id)}>
+              <button >
                 
              <OpenModalMenuItem
              itemText='delete'
              modalComponent={<DeleteSpotModel
                spotId ={spot.id}
-               handleDeletedSpot={handleDelete(spot.id)}
+               handleDelete={handleDelete}
                />}
              />
               </button>
