@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { editSpot } from "../../store/spots";
+import { editSpot, fetchSpotDetail, fetchSpots } from "../../store/spots";
 import { useHistory } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
@@ -79,6 +79,8 @@ function EditSpotForm({spot, hideForm}) {
       console.log(updatedSpot)
         if(updatedSpot){
             await dispatch(editSpot(updatedSpot))
+
+           await dispatch(fetchSpotDetail(updatedSpot.id));
             history.push(`/spots/${updatedSpot.id}`)
             //hideForm()
         }
