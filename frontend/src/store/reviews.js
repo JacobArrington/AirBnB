@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 
 //acitons
 export const GET_REVIEWS = 'reviews/GET_REVIEWS' 
+export const ADD_REVIEW = 'reviews/ADD_REVIEWS'
 
 export const getReviews =(review) => {
     return {
@@ -11,6 +12,15 @@ export const getReviews =(review) => {
         
     }
 }
+
+export const addReview =(review) => {
+    return {
+        type: ADD_REVIEW,
+        review
+    }
+}
+
+
 //thunks
 export const fetchReviews = (spotId) => async(dispatch) => {
     const response = await fetch(`/api/spots/${spotId}/reviews`)
@@ -19,6 +29,23 @@ export const fetchReviews = (spotId) => async(dispatch) => {
     dispatch(getReviews(reviews))
     console.log(reviews,'!!!!!!!!!!!!!!! 20')
 }
+
+export const postReview = (reviewData) => async(dispatch) =>{
+    const {review , stars, spotId} = reviewData
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`,{
+        method: 'POST',
+        
+        body: JSON.stringify({review, stars})
+
+    })
+    if(response.ok){
+        const newReview = await response.json()
+        dispatch(addReview(newReview))
+        return newReview
+    }
+}
+
+
 
 const initReviewState = {}
 
@@ -29,6 +56,10 @@ const reviewReducer = (state = initReviewState, action) =>{
             console.log(action.review)
             newState ={...state, ...action.review}
             console.log(newState)
+            return newState
+        case ADD_REVIEW:
+            newState = {...state}
+            newState[action.review?.id] = action?.review
             return newState
 
     default: 

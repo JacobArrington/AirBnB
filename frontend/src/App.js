@@ -9,6 +9,7 @@ import CreateSpotForm from "./components/CreateSpotForm";
 import ManageSpots from "./components/ManageSpots";
 import EditSpotForm from "./components/EditSpotForm";
 import Reviews from "./components/Reviews";
+import PostReviewModal from "./components/PostReviewModal";
 
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
           <Route path={`/spots/new`} ><CreateSpotForm /></Route>
           <Route path ={`/spots/current`} ><ManageSpots /></Route>
           <Route path ={`spots/:id/edit`}><EditSpotForm /></Route>
-          <Route path ={`spots/:id/reviews`}><Reviews /></Route>
+          <Route path ={`spots/:id/reviews`}><Reviews /> <PostReviewModal/></Route>
           <Route path={`/spots/:id`} ><SpotDetails /></Route>
           
         

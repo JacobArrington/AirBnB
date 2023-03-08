@@ -68,6 +68,7 @@ export const fetchSpotDetail = (spotId) => async (dispatch) => {
     if (response.ok) {
         const spot = await response.json()
         console.log(spot,'@@@@@@@@ 61')
+        console.log(spot.Spot,'@@@@@@@ 71')
         dispatch(getSpotDetail(spot.Spot))
         console.log(spot, `!!!!!!!!!!!!!!!!!!!!! 63`)
     }
@@ -141,9 +142,11 @@ const spotReducer = (state = initSpotState, action) => {
 
          case GET_SPOT_DETAIL:
              //  console.log(state)
-             newState = { ...state ,...action.spotDetails};
+             //newState = { ...state ,...action.spotDetails};
              // console.log(newState,'!!!!!!!!!!!!!!! 114')
-             return newState
+              newState = {...state}
+             newState[action.spotDetails.id] = action.spotDetails
+             return newState[action.spotDetails.id]
 
         case ADD_SPOT:
             newState ={...state}
