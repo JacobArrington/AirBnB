@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouteMatch } from "react-router-dom";
+import { fetchReviews } from "../../store/reviews";
 import { fetchSpotDetail } from "../../store/spots";
 import { editSpot } from "../../store/spots";
+import FetchReviews from "../Reviews";
 import EditSpotForm from "../EditSpotForm";
 
 const SpotDetails = () =>{
@@ -11,12 +13,15 @@ const SpotDetails = () =>{
     const dispatch = useDispatch()
     const spot = useSelector((state) => state?.spot)
     const match = useRouteMatch('/spots/:id/edit')
+    
    //console.log(spot, '!!!!!!!!!!!!!!!! 10',spot.id)
 
     useEffect(() =>{
-        dispatch(fetchSpotDetail(id))//.then(()=> setIsLoaded(true))
+        dispatch(fetchSpotDetail(id))
+       
+      
         
-    },[dispatch, id])
+    },[dispatch, id, ])
 
     if(match){
         //dispatch(editSpot(spot))
@@ -55,8 +60,18 @@ const SpotDetails = () =>{
          <p>{spot?.price} night</p>
          <p>{spot?.avgStarRating }</p>
          <p>{spot?.numReviews ? spot.numReviews : 'New'}</p>
+         <FetchReviews spotId={id} />
      
-    </div>)
+     <div>
+        
+        
+       
+     </div>
+    </div>
+        
+    
+    
+    )
     }
       </div>
     )

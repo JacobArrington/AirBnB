@@ -33,9 +33,9 @@ function ManageSpots() {
         setcurrentUserSpots(updatedSpots)
       }
     
-      const handleDelete = (spotId) => {
-        dispatch(removeSpot(spotId)).then(() => {
-          dispatch(fetchCurrentUserSpots());
+      const handleDelete = async(spotId) => {
+        await dispatch(removeSpot(spotId)).then(async() => {
+           await dispatch(fetchCurrentUserSpots());
          
           
         });
