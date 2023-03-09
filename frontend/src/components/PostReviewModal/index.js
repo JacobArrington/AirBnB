@@ -21,7 +21,8 @@ const PostReviewModal =({spotId}) =>{
             case 'stars':
                 setStars(value)
                 break;
-            
+            default:
+                return
         }
     }
 
@@ -35,7 +36,7 @@ const PostReviewModal =({spotId}) =>{
         }
         const newReview = await dispatch(postReview(formData))
         closeModal()
-        await dispatch(fetchSpotDetail())
+        //await dispatch(fetchSpotDetail())
         return newReview
         
         

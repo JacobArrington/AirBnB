@@ -58,7 +58,7 @@ export const fetchSpots = () => async (dispatch) => {
 export const fetchCurrentUserSpots = () => async (dispatch, getState) => {
     // const ownerId = getState().session.user.id;
     const response = await csrfFetch(`/api/spots/current`)
-    const { spots } = await response.json()
+    const  spots  = await response.json()
     dispatch(setSpots(spots))
 
 }
@@ -122,6 +122,7 @@ export const removeSpot = (spotId) => async (dispatch) => {
     if (response.ok) {
         const spot = await response.json()
       dispatch(deleteSpot(spot));
+      return spot
     }
   };
 

@@ -59,7 +59,7 @@ const reviewReducer = (state = initReviewState, action) =>{
             return newState
         case ADD_REVIEW:
             newState = {...state}
-            newState[action.review?.id] = action?.review
+            newState.Reviews[action.review?.id] = action?.review
             return newState
 
     default: 
