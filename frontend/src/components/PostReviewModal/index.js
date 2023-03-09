@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
-import { postReview } from "../../store/reviews"
+import { fetchReviews, postReview } from "../../store/reviews"
 import { useModal } from "../../context/Modal";
 import { fetchSpotDetail } from "../../store/spots";
 
@@ -36,7 +36,7 @@ const PostReviewModal =({spotId}) =>{
         }
         const newReview = await dispatch(postReview(formData))
         closeModal()
-        //await dispatch(fetchSpotDetail())
+        await dispatch(fetchReviews(spotId))
         return newReview
         
         

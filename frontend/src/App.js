@@ -28,7 +28,7 @@ function App() {
           <Route path={`/spots/new`} ><CreateSpotForm /></Route>
           <Route path ={`/spots/current`} ><ManageSpots /></Route>
           <Route path ={`spots/:id/edit`}><EditSpotForm /></Route>
-          <Route path ={`spots/:id/reviews`}><Reviews /> <PostReviewModal/></Route>
+          {/* <Route path ={`spots/:id/reviews`}></Route> */}
           <Route path={`/spots/:id`} ><SpotDetails /></Route>
           
         

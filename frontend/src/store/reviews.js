@@ -4,6 +4,8 @@ import { csrfFetch } from "./csrf";
 //acitons
 export const GET_REVIEWS = 'reviews/GET_REVIEWS' 
 export const ADD_REVIEW = 'reviews/ADD_REVIEWS'
+export const DELETE_REVIEW = 'review/DELETE_REVIEW'
+
 
 export const getReviews =(review) => {
     return {
@@ -20,6 +22,12 @@ export const addReview =(review) => {
     }
 }
 
+export const deleteReview =(reviewId) =>{
+    return{
+        type: DELETE_REVIEW,
+        reviewId
+    }
+}
 
 //thunks
 export const fetchReviews = (spotId) => async(dispatch) => {
@@ -46,6 +54,16 @@ export const postReview = (reviewData) => async(dispatch) =>{
 }
 
 
+export const removeReview = (review) => async(dispatch) =>{
+    const response = await csrfFetch(`/api/reviews/${review.id}`,{
+        method: 'DELETE'
+    })
+    if(response.ok){
+        const review =await response.json()
+        dispatch(deleteReview(review))
+        return review
+    }
+}
 
 const initReviewState = {}
 
@@ -61,7 +79,10 @@ const reviewReducer = (state = initReviewState, action) =>{
             newState = {...state}
             newState.Reviews[action.review?.id] = action?.review
             return newState
-
+        case DELETE_REVIEW:
+            newState ={ ...state }
+            delete newState[action.review.id]
+            return newState
     default: 
         return state
     }
