@@ -8,18 +8,23 @@ import FetchReviews from "../Reviews";
 import EditSpotForm from "../EditSpotForm";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import PostReviewModal from "../PostReviewModal";
+import DeleteReviewModel from "../DeleteReviewModal";
 
 const SpotDetails = () =>{
     //const [isLoaded, setIsLoaded] = useState(false)
     const { id } = useParams()
     const dispatch = useDispatch()
     const spot = useSelector((state) => state?.spot)
+    const reviews = useSelector((state)=> state.review)
     const match = useRouteMatch('/spots/:id/edit')
+    console.log(reviews)
     
    //console.log(spot, '!!!!!!!!!!!!!!!! 10',spot.id)
+  
 
     useEffect(() =>{
         dispatch(fetchSpotDetail(id))
+        dispatch(fetchReviews(id))
        
       
         
@@ -62,6 +67,7 @@ const SpotDetails = () =>{
          <p>{spot.price} night</p>
          <p>{spot.avgStarRating }</p>
          <p>{spot.numReviews ? spot.numReviews : 'New'}</p>
+        
          <button>
             <OpenModalMenuItem
              itemText='Post Your Review'
@@ -71,6 +77,21 @@ const SpotDetails = () =>{
             
             />
          </button>
+         {reviews?.Reviews?.map(review =>(
+            <button>
+            <OpenModalMenuItem 
+            itemText ='Delete'
+            modalComponent={<DeleteReviewModel 
+            
+            reviewId={review.id}
+            spotId={id}
+            />}
+            
+            />
+            </button>
+         ))}
+         
+         
          <FetchReviews spotId={id} />
      
      <div>

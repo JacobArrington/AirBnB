@@ -27,10 +27,10 @@ function DeleteSpotModel({ spotId, handleDelete }) {
         <div className='Modal'>
             <div className='content'>
                 <h3>Confrim Deletion</h3>
-                <p>Are you sure you want to delete this spot?</p>
+                <p>Are you sure you want to delete this review?</p>
                 <div className="modal-buttons">
-                    <button disabled={isDeleting} onClick={handleYes}>Yes (Delete Spot)</button>
-                    <button disabled={isDeleting} onClick={handleNo}>No (Keep Spot)</button>
+                    <button disabled={isDeleting} onClick={handleYes}>Yes (Delete Review)</button>
+                    <button disabled={isDeleting} onClick={handleNo}>No (Keep Review)</button>
                 </div>
             </div>
         </div>
