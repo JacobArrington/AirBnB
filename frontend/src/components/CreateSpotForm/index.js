@@ -25,9 +25,9 @@ function CreateSpotForm() {
     const [image2, setImage2] = useState('');
     const [image3, setImage3] = useState('');
     const [image4, setImage4] = useState('');
+    const [errors, setErrors] = useState([])
 
-
-
+  
      
  const handleInputChange = (e) => {
     const {name, value} = e.target;
@@ -93,6 +93,21 @@ function CreateSpotForm() {
       const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const formErrors = []
+        if(name.length > 50) formErrors.push('Name must be less than 50 characters')
+        if(!name.length) formErrors.push('Name is Required ')
+        if(!price.length) formErrors.push('Price is Required')
+        if(!country.length) formErrors.push('Country is Required')
+        if(!city.length) formErrors.push('City is Required')
+        if(!state.length) formErrors.push('State is Required')
+        if(description.length <= 30) formErrors.push('Description must be a minimum of 30 characters')
+        if(!previewImage.length) formErrors.push('Preview Image is required')
+        setErrors(formErrors)
+        
+        if(formErrors.length){
+            return errors
+        } 
+
         
     const formData = {
         name,
@@ -139,7 +154,7 @@ function CreateSpotForm() {
                     name="country"
                     placeholder='Country' 
                     onChange={handleInputChange}
-                    required
+                    
                 />
             </div>
             <div>
@@ -149,7 +164,7 @@ function CreateSpotForm() {
                     name='address'
                     placeholder='Address' 
                     onChange={handleInputChange}
-                    required
+                    
                 />
             </div>
             <div>
@@ -159,7 +174,7 @@ function CreateSpotForm() {
                     name="city"
                     placeholder='City' 
                     onChange={handleInputChange}
-                    required
+                    
                 />
             </div>
             <div>
@@ -169,7 +184,7 @@ function CreateSpotForm() {
                     name="state"
                     placeholder='State' 
                     onChange={handleInputChange}
-                    required
+                    
                 />
             </div>
           
@@ -181,7 +196,7 @@ function CreateSpotForm() {
                             name='description'
                             placeholder='Please write at least 30 characters' 
                             onChange={handleInputChange}
-                            required
+                           
                         >
                         </textarea>
                     </div>
@@ -195,7 +210,7 @@ function CreateSpotForm() {
                            name="name"
                            placeholder='Name of your spot' 
                             onChange={handleInputChange}
-                            required
+                            
 
                         />
 
@@ -212,7 +227,7 @@ function CreateSpotForm() {
                             name="price"
                             placeholder='Price per night (USD)' 
                             onChange={handleInputChange}
-                            required
+                           
                         />
                     </div>
                         <div>
@@ -223,7 +238,8 @@ function CreateSpotForm() {
                                 name='previewImage'
                                 placeholder='Preview Image URL'
                                 onChange={handleImageChange}
-                                required
+                               
+                               
                             />
                               <input 
                                 type='text'
@@ -255,7 +271,7 @@ function CreateSpotForm() {
                             />
 
                         </div>
-              
+                {errors.map(error => <div key={error}>{error}</div>)}
             <button type='submit'>Create Spot</button>
 
         </form>

@@ -25,6 +25,7 @@ function LoginFormModal() {
       );
   };
 
+ 
   return (
     <>
       <h1>Log In</h1>
@@ -53,6 +54,7 @@ function LoginFormModal() {
           />
         </label>
         <button type="submit">Log In</button>
+       
       </form>
     </>
   );

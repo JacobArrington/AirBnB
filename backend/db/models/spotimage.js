@@ -20,11 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     spotId: DataTypes.INTEGER,
     url: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate:{
-        notEmpty: true,
-        
-      }
+      
+      
     },
     preview: {
       type: DataTypes.BOOLEAN,
