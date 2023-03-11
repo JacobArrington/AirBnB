@@ -19,16 +19,16 @@ const router = express.Router();
 //     check('maxPrice').isDecimal({min: 0}).withMessage('Maximum price must be greater than or equal to 0'),
 //     handleValidationErrors
 // ]
-
+// removed from line 24  minLat, maxLat, minLng, maxLng,
 router.get('/', async (req, res) => {
-    let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query
+    let {page, size, minPrice, maxPrice} = req.query
 
     if (!page || Number.isNaN(page) || page > 10) { page = 1 }
     if (!size || Number.isNaN(size) || size > 20) { size = 20 }
-    if (!minLat) { minLat = -90 }
-    if (!maxLat) { maxLat = 90 }
-    if (!minLng) { minLng = -180 }
-    if (!maxLng) { maxLng = 180 }
+    //if (!minLat) { minLat = -90 }
+   // if (!maxLat) { maxLat = 90 }
+    //if (!minLng) { minLng = -180 }
+    //if (!maxLng) { maxLng = 180 }
     if (!minPrice) { minPrice = 1 }
     if (!maxPrice) { maxPrice = 100000 }
     page = Number(page)
@@ -306,8 +306,8 @@ router.post('/',requireAuth,ValidateSpot, async (req, res) => {
               city,
               state,
               country,
-              lat,
-              lng,
+             // lat,
+              //lng,
               ownerId: req.user.id,
              
         });
