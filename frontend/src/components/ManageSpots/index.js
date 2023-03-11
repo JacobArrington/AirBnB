@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory, useParams } from "react-router-dom";
+import reviewReducer from "../../store/reviews";
 
 import { fetchCurrentUserSpots, removeSpot } from "../../store/spots";
 import DeleteSpotModel from "../DeleteSpotModel";
@@ -40,13 +41,26 @@ function ManageSpots() {
           
         });
       };
+
+     
     
     
     return (
   
       <>
-        { currentUserSpots?.map((spot) => (
+       
+        { currentUserSpots?.length === 0?(
+          
+          <div> 
+            <h2>Manage Spots</h2>
+            you have not created any spots <button><NavLink to='/spots/new'>Create a New Spot</NavLink></button>
+          </div> 
+         
+        ):(
+          currentUserSpots?.map((spot) => (
           <div key={spot.id}>
+            <h2>Manage Spots</h2>
+            <button><NavLink to='/spots/new'>Create a New Spot</NavLink></button>
             <NavLink to={`/spots/${spot.id}`}>
               <img src={spot?.previewImage} alt={spot?.name} />
             </NavLink>
@@ -60,6 +74,7 @@ function ManageSpots() {
               </button>
             </div>
             <div>
+              
               <button >
                 
              <OpenModalMenuItem
@@ -72,12 +87,17 @@ function ManageSpots() {
               </button>
             </div>
           </div>
-        ))}
+        )))}
          
-          
+      
           
         
       </>
+    
+      
+         
+      
+      
     );
   }
   

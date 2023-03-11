@@ -16,6 +16,7 @@ const SpotDetails = () =>{
     const dispatch = useDispatch()
     const spot = useSelector((state) => state?.spot)
     const reviews = useSelector((state)=> state.review)
+    const currentUser = useSelector((state) => state?.session?.user);
     const match = useRouteMatch('/spots/:id/edit')
     console.log(reviews)
     
@@ -42,6 +43,7 @@ const SpotDetails = () =>{
     //     spot = spots.id
     // }
 
+ const spotOwner = currentUser && spot && currentUser.id === spot.ownerId
    
     //if (!spot) return <div> detail not found </div>
    // const spotInfo = detail?.Spot
@@ -67,7 +69,7 @@ const SpotDetails = () =>{
          <p>{spot.price} night</p>
          <p>{spot.avgStarRating }</p>
          <p>{spot.numReviews ? spot.numReviews : 'New'}</p>
-        
+        {(!currentUser || spotOwner) || (
          <button>
             <OpenModalMenuItem
              itemText='Post Your Review'
@@ -77,19 +79,7 @@ const SpotDetails = () =>{
             
             />
          </button>
-         {reviews?.Reviews?.map(review =>(
-            <button>
-            <OpenModalMenuItem 
-            itemText ='Delete'
-            modalComponent={<DeleteReviewModel 
-            
-            reviewId={review.id}
-            spotId={id}
-            />}
-            
-            />
-            </button>
-         ))}
+        )}
          
          
          <FetchReviews spotId={id} />

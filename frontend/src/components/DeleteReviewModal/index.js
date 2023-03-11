@@ -20,7 +20,7 @@ function DeleteReviewModel({ reviewId,spotId }) {
   
 
         const currentUserReview= reviews?.Reviews?.find((review)=> review?.user?.id === currentUser?.id && review?.id === reviewId)
-        console.log(currentUserReview, '!!!!!!!!!!!!!!!!!!!!!! 19')
+       // console.log(currentUserReview, '!!!!!!!!!!!!!!!!!!!!!! 19')
        
         
     
