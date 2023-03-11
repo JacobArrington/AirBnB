@@ -14,12 +14,6 @@ router.get("/api/csrf/restore", (req, res) => {
 
   // Add a XSRF-TOKEN cookie in development
   
-  if (process.env.NODE_ENV !== 'production') {
-    router.get('/api/csrf/restore', (req, res) => {
-      res.cookie('XSRF-TOKEN', req.csrfToken());
-      return res.json({});
-    });
-  }
 
 const apiRouter = require('./api');
 
@@ -50,5 +44,12 @@ if (process.env.NODE_ENV === 'production') {
     );
   });
 }
+if (process.env.NODE_ENV !== 'production') {
+  router.get('/api/csrf/restore', (req, res) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    return res.json({});
+  });
+}
+
 
 module.exports = router;
