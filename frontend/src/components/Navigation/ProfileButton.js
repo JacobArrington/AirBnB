@@ -84,7 +84,9 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
+            <li>
               <button onClick={demoUserLogin}>Demo Login</button>
+            </li>
           </>
         )}
       </ul>
