@@ -9,6 +9,7 @@ import EditSpotForm from "../EditSpotForm";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import PostReviewModal from "../PostReviewModal";
 import DeleteReviewModel from "../DeleteReviewModal";
+import './SpotDetailsPage.css'
 
 const SpotDetails = () =>{
     //const [isLoaded, setIsLoaded] = useState(false)
@@ -52,25 +53,48 @@ const SpotDetails = () =>{
    
    return(
     <div>
-    {spot &&(<div>
+    {spot &&(<div className="spot-detail-container">
         
-          
+          <div className="spot-info">
         <h2>{spot.name}</h2>
         <p>{spot.city},{spot.state},{spot.country}</p>
-        <div>
+        </div>
+        <div className="spot-img">
      
         {spot?.SpotImages && spot.SpotImages.map(image =>(
          <img key={image.id} src={image.url} alt={spot.name}></img>
          
         ))}
+        <div className="spot-descript">
+            <p>{spot.description}</p>
+        </div>
        
          </div>
+         <div className="owner">
          <p>Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}</p>
-         <p>{spot.price} night</p>
-         <p>{spot.avgStarRating }</p>
+         </div>
+            <div className="booking">
+                
+                <div className ="book-price">
+         <p>${spot.price} night</p>
+                </div>
+                <div class='book-star'>
+         <p><i class="fa-solid fa-star"></i>{spot.avgStarRating }</p>
+                </div>
+            <div className="book-review-count" >
          <p>{spot.numReviews ? spot.numReviews : 'New'}</p>
+            </div>
+            <div btn-div>
+         <button className="RSVP-btn">Reserve</button>
+            </div>
+            </div>
+               <div className="review-container" >     
+            <div className="review-stats">
+            <div className="review-star"><p><i class="fa-solid fa-star"></i>{spot.avgStarRating }</p></div> 
+            <div className="review-count"><p>{spot.numReviews ? spot.numReviews : 'New'} reviews</p></div> 
+            </div>
         {(!currentUser || spotOwner) || (
-         <button>
+         <button className="post-review-btn">
             <OpenModalMenuItem
              itemText='Post Your Review'
              modalComponent={<PostReviewModal 
@@ -80,6 +104,7 @@ const SpotDetails = () =>{
             />
          </button>
         )}
+        </div>
          
          
          <FetchReviews spotId={id} />

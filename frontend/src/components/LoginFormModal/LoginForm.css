@@ -1,0 +1,38 @@
+.login-container {
+    background-color: white;
+    display: flex;
+    height:200px;
+    width:300px;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    border: solid black 3px;
+    border-radius: 1px;
+    padding: 10px;
+}
+
+.input-field{
+    position: relative;
+    left: calc(30px);
+    margin: 5px;
+    height: 15px;
+    width: 200px;
+}
+
+.login-btn{
+    margin: 15px;
+    height:50px;
+    width:250px;
+    font-size: 15px;
+    color: white;
+    background-color: #6a13b1;
+}
+
+.login-btn:hover{
+    background-color: #6d2cb8;
+}
+
+.login-btn:active{
+    background-color: #767676;
+}

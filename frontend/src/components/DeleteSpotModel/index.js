@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { fetchCurrentUserSpots, removeSpot, setSpots } from "../../store/spots";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import './spotdelete.css';
 
 function DeleteSpotModel({ spotId, handleDelete }) {
     const { closeModal } = useModal()
@@ -28,10 +29,10 @@ function DeleteSpotModel({ spotId, handleDelete }) {
             <div className='content'>
                 <h3>Confrim Deletion</h3>
                 <p>Are you sure you want to delete this review?</p>
-                <div className="modal-buttons">
-                    <button disabled={isDeleting} onClick={handleYes}>Yes (Delete Review)</button>
-                    <button disabled={isDeleting} onClick={handleNo}>No (Keep Review)</button>
-                </div>
+               
+                    <button disabled={isDeleting} onClick={handleYes} className='button-class-yass-mama'>Yes (Delete Review)</button>
+                    <button disabled={isDeleting} onClick={handleNo} className='button-class-no-maam'>No (Keep Review)</button>
+                
             </div>
         </div>
     )

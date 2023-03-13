@@ -47,7 +47,7 @@ function ManageSpots() {
     
     return (
   
-      <>
+      <div lassName='container'>
        
         { currentUserSpots?.length === 0?(
           
@@ -58,9 +58,8 @@ function ManageSpots() {
          
         ):(
           currentUserSpots?.map((spot) => (
-          <div key={spot.id}>
-            <h2>Manage Spots</h2>
-            <button><NavLink to='/spots/new'>Create a New Spot</NavLink></button>
+          <div key={spot.id } className='card'>
+            
             <NavLink to={`/spots/${spot.id}`}>
               <img src={spot?.previewImage} alt={spot?.name} />
             </NavLink>
@@ -92,7 +91,7 @@ function ManageSpots() {
       
           
         
-      </>
+      </div>
     
       
          

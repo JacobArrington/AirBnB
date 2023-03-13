@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchReviews, removeReview } from "../../store/reviews";
+import { fetchSpotDetail } from "../../store/spots";
+import './deleteReview.css'
 
 function DeleteReviewModel({ reviewId,spotId }) {
     const { closeModal } = useModal()
@@ -31,7 +33,8 @@ function DeleteReviewModel({ reviewId,spotId }) {
                 await dispatch(removeReview(reviewId))
                 closeModal()
                 await dispatch(fetchReviews(spotId))
-                console.log(reviewId)
+                await dispatch(fetchSpotDetail(spotId))
+                //console.log(reviewId)
                 
             }
 
@@ -44,16 +47,15 @@ function DeleteReviewModel({ reviewId,spotId }) {
             }
         
     return (
-        <div className='Modal'>
-            <div className='content'>
+        <div className='Delete-Modal'>
+            
                 <h3>Confrim Deletion</h3>
                 <p>Are you sure you want to delete this Review?</p>
-                <div className="modal-buttons">
-                    <button  onClick={handleYes}>Yes (Delete Review)</button>
-                    <button  onClick={handleNo}>No (Keep Review)</button>
+                
+                    <button  onClick={handleYes}className='yes' >Yes (Delete Review)</button>
+                    <button  onClick={handleNo} className='no'>No (Keep Review)</button>
                 </div>
-            </div>
-        </div>
+          
     )
 
 }

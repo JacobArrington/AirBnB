@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSpots } from "../../store/spots";
 import { NavLink } from 'react-router-dom';
+import './landingPage.css' 
+import Tooltip from "../ToolTip";
 
 
 const LandingPage = () => {
@@ -17,24 +19,32 @@ const LandingPage = () => {
 
     //console.log(spots.Spots)
     const previewImage = spots?.Spots
- console.log(previewImage)
-    return(
-        <>
-        {previewImage?.map(spot => (
-    <div key={spot.id}>
-        <NavLink  to={`/spots/${spot.id}`}>
-        <img src={spot?.previewImage} alt={spot?.name} />
-       <p>{spot.city }</p>
-       <p>{spot.state}</p>
-       <p>{spot.price} night</p>
-       <p>{spot.avgRating}</p>
-       </NavLink>
-       
-   </div> ))}
-
-        
-        </>
-    )
-}
-
+ //console.log(previewImage)
+ return (
+    <div className='container'>
+      {previewImage?.map(spot => (
+        <div key={spot.id} className='card'>
+          <NavLink to={`/spots/${spot.id}`}>
+            <div className="img-container">
+              <Tooltip spotName={spot.name}>
+                <img src={spot?.previewImage} alt={spot?.name} />
+              </Tooltip>
+            </div>
+            <div className="info">
+              <div className="location">
+                <p>{spot.city}, {spot.state}</p>
+              </div>
+              <div className="star">
+                <p><i class="fa-solid fa-star"></i>{spot.avgRating}</p>
+              </div>
+            </div>
+            <div className="price">
+              <p>${spot.price} night</p>
+            </div>
+          </NavLink>
+        </div>
+      ))}
+    </div>
+  );
+      }
 export default LandingPage

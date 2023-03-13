@@ -20,7 +20,7 @@ const Reviews =({ spotId }) => {
         <>
         {Object.values(reviews).map(review =>(
             
-             <div key={review.id}>
+             <div key={review.id} className="rev-contains">
                 <p>{review?.User?.firstName}</p>
                 <p>{review?.createdAt && new Date(review.createdAt).toLocaleDateString('en-US',{month: 'long', year: 'numeric'})}</p>
              <p>{review?.review}</p>
