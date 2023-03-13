@@ -14,6 +14,7 @@ function EditSpotForm({spot, hideForm}) {
     // states
     const [csrfToken, setCsrfToken] = useState('')
 
+    console.log(spot)
 
     const [name, setName] = useState(spot.name);
     const [description, setDescription] = useState(spot.description);
@@ -61,7 +62,7 @@ function EditSpotForm({spot, hideForm}) {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('hello gayGod!!!!!!!!!!!!!! from submit')
+        //console.log('hello gayGod!!!!!!!!!!!!!! from submit')
 
         const formData = {
             ...spot,

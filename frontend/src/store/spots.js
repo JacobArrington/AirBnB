@@ -67,10 +67,10 @@ export const fetchSpotDetail = (spotId) => async (dispatch) => {
     const response = await fetch(`/api/spots/${spotId}`)
     if (response.ok) {
         const spot = await response.json()
-        console.log(spot,'@@@@@@@@ 61')
-        console.log(spot.Spot,'@@@@@@@ 71')
+       // console.log(spot,'@@@@@@@@ 61')
+       // console.log(spot.Spot,'@@@@@@@ 71')
         dispatch(getSpotDetail(spot.Spot))
-        console.log(spot, `!!!!!!!!!!!!!!!!!!!!! 63`)
+        //console.log(spot, `!!!!!!!!!!!!!!!!!!!!! 63`)
     }
 }
 

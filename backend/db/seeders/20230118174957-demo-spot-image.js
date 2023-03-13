@@ -10,7 +10,7 @@ module.exports = {
     options.tableName = 'SpotImages'
     await queryInterface.bulkInsert(options, [{
       spotId: 1,
-      url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677617116/172047_191956997494526_1462028_o_ngaye3.jpg',
+      url: '',
       preview: true
   }, {
       spotId: 2,

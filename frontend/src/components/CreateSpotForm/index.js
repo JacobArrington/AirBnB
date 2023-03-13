@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { postSpot,  fetchSpots } from '../../store/spots';
 import { addSpotImage } from '../../store/Images';
+import './CreateSpotForm.css'
 
 
 
@@ -150,6 +151,7 @@ function CreateSpotForm() {
             <div>
                 <label htmlFor="country">Country</label>
                 <input
+                className='sptfd'
                     type="text"
                     name="country"
                     placeholder='Country' 
@@ -160,6 +162,7 @@ function CreateSpotForm() {
             <div>
                 <label htmlFor="address">Address</label>
                 <input
+                className='sptfd'
                     type="text"
                     name='address'
                     placeholder='Address' 
@@ -167,19 +170,20 @@ function CreateSpotForm() {
                     
                 />
             </div>
-            <div>
+            <div className='city-state-div'>
                 <label htmlFor="city">City</label>
                 <input
+           
                     type="text"
                     name="city"
                     placeholder='City' 
                     onChange={handleInputChange}
                     
                 />
-            </div>
-            <div>
+          
                 <label htmlFor="state">State</label>
                 <input
+               
                     type="text"
                     name="state"
                     placeholder='State' 
@@ -193,6 +197,7 @@ function CreateSpotForm() {
                         <p>Mention the best features of your space, any special amentities like
                             fast wif or parking, and what you love about the neighborhood.</p>
                         <textarea
+                            className='.describe-text-area'
                             name='description'
                             placeholder='Please write at least 30 characters' 
                             onChange={handleInputChange}
@@ -206,6 +211,7 @@ function CreateSpotForm() {
                             your place special.
                         </p>
                         <input
+                        className='sptfd'
                             type='text'
                            name="name"
                            placeholder='Name of your spot' 
@@ -218,11 +224,12 @@ function CreateSpotForm() {
 
                     </div>
 
-                    <div>
+                    <div className='CCprice'>
                         <label htmlFor="price">Set a base price for your spot</label>
                         <p>Competitive pricing can help your listing stand out and rank higher
                             in search results</p>
                         <input
+                        className='sptfd'
                             type="number"
                             name="price"
                             placeholder='Price per night (USD)' 
@@ -234,6 +241,7 @@ function CreateSpotForm() {
                             <label htmlFor='spotImages'>Liven up your spot with photos</label>
                             <p>Submit a link to at least one photo to publish your spot</p>
                             <input 
+                            className='sptfd'
                                 type='text'
                                 name='previewImage'
                                 placeholder='Preview Image URL'
@@ -242,6 +250,7 @@ function CreateSpotForm() {
                                
                             />
                               <input 
+                              className='sptfd'
                                 type='text'
                                 name='image1'
                                 placeholder='Image URL'
@@ -249,6 +258,7 @@ function CreateSpotForm() {
                                
                             />
                                 <input 
+                                className='sptfd'
                                 type='text'
                                 name='image2'
                                 placeholder='Image URL'
@@ -256,6 +266,7 @@ function CreateSpotForm() {
                                
                             />
                                 <input 
+                                className='sptfd'
                                 type='text'
                                 name='image3'
                                 placeholder='Image URL'
@@ -263,6 +274,7 @@ function CreateSpotForm() {
                                
                             />
                                 <input 
+                                className='sptfd'
                                 type='text'
                                 name='image4'
                                 placeholder='Image URL'
@@ -272,7 +284,7 @@ function CreateSpotForm() {
 
                         </div>
                 {errors.map(error => <div key={error}>{error}</div>)}
-            <button type='submit'>Create Spot</button>
+            <button className='.new-spot' type='submit'>Create Spot</button>
 
         </form>
 
