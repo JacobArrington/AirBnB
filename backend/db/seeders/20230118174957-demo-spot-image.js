@@ -11,27 +11,79 @@ module.exports = {
     await queryInterface.bulkInsert(options, [{
       spotId: 1,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 1,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 1,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 1,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 1,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
-      preview: true
-  }, {
+      preview: true,
+    },
+    {
       spotId: 2,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 2,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 2,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 2,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 2,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
-      preview: true
-  }, {
+      preview: true,
+    },
+    {
       spotId: 3,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 3,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 3,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 3,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
+      preview: true,
+    },
+    {
+      spotId: 3,
       url: 'https://res.cloudinary.com/dfnqaxcck/image/upload/v1677709321/camping-kyles-landing-scaled_rc1vgl.jpg',
-      preview: true
+      preview: true,
+    
+    
   }], {});
   },
 
